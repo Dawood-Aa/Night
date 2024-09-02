@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .class1 {
+            width: 300px;
+            height: 300px;
+            background-color: red;
+            position: relative;
+        }
+
+        .class2 {
+            animation: moveBox 3s ease forwards;
+        }
+
+        @keyframes moveBox {
+    0% {
+        left: 0px;
+        top: 0px;
+        background-color: red;
+    }
+    17% {
+        background-color: orange;
+    }
+    33% {
+        background-color: yellow;
+    }
+    50% {
+        background-color: green;
+    }
+    67% {
+        background-color: blue;
+    }
+    83% {
+        background-color: indigo;
+    }
+    100% {
+        left: 800px;
+        top: 0px;
+        background-color: violet;
+        transform: rotate(360deg);
+    }
+}
+
+.class3 {
+    animation: moveBoxback 3s ease forwards;
+}
+
+@keyframes moveBoxback {
+    0% {
+        left: 800px;
+        top: 0px;
+        background-color: violet;
+    }
+    17% {
+        background-color: indigo;
+    }
+    33% {
+        background-color: blue;
+    }
+    50% {
+        background-color: green;
+    }
+    67% {
+        background-color: yellow;
+    }
+    83% {
+        background-color: orange;
+    }
+    100% {
+        left: 0px;
+        top: 0px;
+        background-color: red;
+        transform: rotate(-360deg);
+    }
+}
+    </style>
+</head>
+
+<body>
+    <div class="class1"></div>
+
+    <script>
+        let box = document.querySelector(".class1");
+        let toggle = false;
+
+        box.addEventListener("click", function () {
+            if (!toggle) {
+                box.classList.remove("class3");
+                box.classList.add("class2");
+            } else {
+                box.classList.remove("class2");
+                box.classList.add("class3");
+            }
+            toggle = !toggle;
+        });
+    </script>
+
+
+</body>
+
+</html>
