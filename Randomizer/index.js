@@ -25,8 +25,8 @@ function BDSM(){
     ];
 
 
-   var random = Math.floor(Math.random()*100)
-   $(".image").attr("src", "Randomizer/BDSMimages/" + BDSM[random])
+   var random = Math.floor(Math.random()*100);
+   $(".image").attr("src", "Randomizer/BDSMimages/" + BDSM[random]);
 }
 
 function Femdom(){
@@ -67,8 +67,8 @@ function Femdom(){
         'Fem_Part_1_Jun_16_242.jpeg', 'Fem_Part_1_Jun_16_243.jpeg', 'Fem_Part_1_Jun_16_244.jpeg', 
         'Fem_Part_1_Jun_16_245.jpg'
     ];
-    var random = Math.floor(Math.random()*100)
-    $(".image").attr("src", "Randomizer/FemdomImages/" + Femdom[random]) 
+    var random = Math.floor(Math.random()*100);
+    $(".image").attr("src", "Randomizer/FemdomImages/" + Femdom[random]); 
 }
 
 
@@ -131,17 +131,17 @@ function Randomimg(){
         'Fem_Part_1_Jun_16_242.jpeg', 'Fem_Part_1_Jun_16_243.jpeg', 'Fem_Part_1_Jun_16_244.jpeg', 
         'Fem_Part_1_Jun_16_245.jpg'
     ];
-    var rand = Math.floor(Math.random()*2+1)
+    var rand = Math.floor(Math.random()*2+1);
 
     if(rand===1){
-    var random = Math.floor(Math.random()*100)
-    $(".image").attr("src", "Randomizer/FemdomImages/" + Femdom[random]) 
+    var random = Math.floor(Math.random()*100);
+    $(".image").attr("src", "Randomizer/FemdomImages/" + Femdom[random]); 
 }else if(rand===2){
-    var random = Math.floor(Math.random()*100)
-    $(".image").attr("src", "Randomizer/BDSMimages/" + BDSM[random]) 
+    var random = Math.floor(Math.random()*100);
+    $(".image").attr("src", "Randomizer/BDSMimages/" + BDSM[random]);
     }
 }
 
 $('#changeBDSM').click(BDSM);
 $('#changeFemdom').click(Femdom);
-$('#randomimg').click(Randomimg)
+$('#randomimg').click(Randomimg);
