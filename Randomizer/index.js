@@ -26,7 +26,7 @@ function BDSM(){
 
 
    var random = Math.floor(Math.random()*100)
-   $(".image").attr("src", "BDSMImages/" + BDSM[random])
+   $(".image").attr("src", "./BDSMImages/" + BDSM[random])
 }
 
 function Femdom(){
@@ -68,7 +68,7 @@ function Femdom(){
         'Fem_Part_1_Jun_16_245.jpg'
     ];
     var random = Math.floor(Math.random()*100)
-    $(".image").attr("src", "FemdomImages/" + Femdom[random]) 
+    $(".image").attr("src", "./FemdomImages/" + Femdom[random]) 
 }
 $('#changeBDSM').click(BDSM);
 $('#changeFemdom').click(Femdom);
