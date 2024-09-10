@@ -58,12 +58,12 @@ const Femdom = [
         'Fem_Part_1_Jun_16_245.jpg'
     ];
 function BDSMFunction() {
-    const randomIndex = Math.floor(Math.random() * BDSM.length);
+    const randomIndex = Math.floor(Math.random() * 100);
     $(".image").attr("src", "Randomizer/BDSMimages/" + BDSM[randomIndex]);
 }
 
 function FemdomFunction() {
-    const randomIndex = Math.floor(Math.random() * Femdom.length);
+    const randomIndex = Math.floor(Math.random() * 100);
     $(".image").attr("src", "Randomizer/FemdomImages/" + Femdom[randomIndex]);
 }
 
