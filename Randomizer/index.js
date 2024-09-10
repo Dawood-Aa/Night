@@ -59,12 +59,12 @@ const Femdom = [
     ];
 function BDSMFunction() {
     const randomIndex = Math.floor(Math.random() * 100);
-    $(".image").attr("src", "Randomizer/BDSMimages/" + BDSM[randomIndex]);
+    $(".image").attr("src", "./BDSMimages/" + BDSM[randomIndex]);
 }
 
 function FemdomFunction() {
     const randomIndex = Math.floor(Math.random() * 100);
-    $(".image").attr("src", "Randomizer/FemdomImages/" + Femdom[randomIndex]);
+    $(".image").attr("src", "./FemdomImages/" + Femdom[randomIndex]);
 }
 
 function Randomimg() {
