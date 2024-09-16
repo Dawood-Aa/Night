@@ -275,7 +275,7 @@ $(".image").attr("src", "./FemdomImages/" + Femdom[randomIndex]);
 }
 
 function BoobsFunction() {
-    const randomIndex = Math.floor(Math.random() * bewbs.length);
+    const randomIndex = Math.floor(Math.random() * 100);
     $(".image").attr("src", "./BoobImages/" + bewbs[randomIndex]);
 }
 
