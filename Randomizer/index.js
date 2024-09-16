@@ -285,11 +285,15 @@ function AssFunction() {
 }
 
 function Randomimg() {
-const rand = Math.floor(Math.random() * 2);
+const rand = Math.floor(Math.random() * 4);
 if (rand === 0) {
     BDSMFunction();
-} else {
+} else if (rand === 1){
     FemdomFunction();
+}else if (rand === 2){
+AssFunction();
+}else if (rand === 3){
+BoobsFunction();
 }
 }
 
