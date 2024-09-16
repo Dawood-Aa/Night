@@ -281,7 +281,7 @@ function BoobsFunction() {
 
 function AssFunction() {
     const randomIndex = Math.floor(Math.random() * Ass.length);
-    $(".image").attr("src", "./AssImages/" + Ass[randomIndex]);
+    $(".image").attr("src", "../AssImages/" + Ass[randomIndex]);
 }
 
 function Randomimg() {
