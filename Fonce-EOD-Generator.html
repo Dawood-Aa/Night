@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FONCÉ EOD REPORTING TOOL</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+      font-family: "Segoe UI", sans-serif;
+      color: #000;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      width: 100%;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 25px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .navbar img {
+      height: 45px;
+      width: auto;
+    }
+
+    .navbar h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin: 0;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+.section:first-of-type {
+  margin-top: 50px;
+}
+
+    .subtitle {
+      font-style: italic;
+      color: #e5e7eb;
+      margin: 20px 0 30px;
+      text-align: center;
+    }
+
+    .section {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 20px 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      min-height: 220px;
+      box-sizing: border-box;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #f9fafb;
+      box-sizing: border-box;
+    }
+
+    input[readonly] {
+      background-color: #e5e7eb;
+    }
+
+    .time-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .time-group input {
+      width: 70%;
+    }
+
+    .time-group select {
+      width: 30%;
+    }
+
+    button {
+      padding: 10px 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    .add-btn,
+    .copy-btn,
+    .save-btn {
+      background-color: #a3b18a;
+      color: #000;
+    }
+
+    .generate-btn {
+      background-color: #b91c1c;
+      color: #fff;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #dc2626;
+      color: #fff;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 5px;
+    }
+
+    #output {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 25px;
+      white-space: pre-line;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 700px;
+    }
+
+    /* Toggle Switch */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+    }
+
+    .toggle-switch input {
+      display: none;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      border-radius: 26px;
+      transition: 0.3s;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    input:checked + .slider {
+      background-color: #3b82f6;
+    }
+
+    input:checked + .slider::before {
+      transform: translateX(24px);
+    }
+
+    /* Centered Button Row */
+    .centered-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 35px 0;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <img src="fonce-logo.jpg" alt="FONCÉ Logo">
+      <h1>FONCÉ EOD REPORTING TOOL</h1>
+    </div>
+  </nav>
+
+  <!-- SHIFT DETAILS -->
+  <div id="shift-section" class="section">
+    <label>Shift Date (mm/dd/yy EST):</label>
+    <input type="date" name="shiftDate" />
+
+    <label>Logging In (hh:mm AM/PM):</label>
+    <div class="time-group">
+      <input type="text" placeholder="hh:mm" name="loggingIn" />
+      <select name="loggingInAmPm">
+        <option>AM</option>
+        <option>PM</option>
+      </select>
+    </div>
+
+    <div class="toggle-row">
+      <label>No Lunch Break</label>
+      <label class="toggle-switch">
+        <input type="checkbox" id="noLunchToggle" onchange="toggleLunch()" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div id="lunch-section">
+      <label>Lunch Start (hh:mm AM/PM):</label>
+      <div class="time-group">
+        <input type="text" placeholder="hh:mm" name="lunchStart" />
+        <select name="lunchStartAmPm">
+          <option>AM</option>
+          <option>PM</option>
+        </select>
+      </div>
+
+      <label>Lunch End (hh:mm AM/PM):</label>
+      <div class="time-group">
+        <input type="text" placeholder="hh:mm" name="lunchEnd" />
+        <select name="lunchEndAmPm">
+          <option>AM</option>
+          <option>PM</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODEL ENTRIES -->
+  <div id="form-container" class="section"></div>
+
+  <!-- ADD MODEL BUTTON -->
+  <div class="centered-btn">
+    <button class="add-btn" onclick="addEntry()">+ Add Model</button>
+  </div>
+
+  <!-- TOTAL SECTION -->
+  <div id="bottom-section" class="section">
+    <label>Total Gross:</label>
+    <input type="text" id="totalGross" readonly />
+
+    <label>Total Net:</label>
+    <input type="text" id="totalNet" readonly />
+
+    <label>Logging Off (hh:mm AM/PM):</label>
+    <div class="time-group">
+      <input type="text" placeholder="hh:mm" name="loggingOff" />
+      <select name="loggingOffAmPm">
+        <option>AM</option>
+        <option>PM</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="button-row">
+    <button class="generate-btn" onclick="generateReport()">Generate Report</button>
+    <button class="copy-btn" onclick="copyToClipboard()">Copy Report</button>
+    <button class="save-btn" onclick="saveToFile()">Save Report</button>
+  </div>
+
+  <!-- OUTPUT -->
+  <div id="output"></div>
+
+  <script>
+    let entryCount = 0;
+
+    function addEntry() {
+      const container = document.getElementById("form-container");
+      const section = document.createElement("div");
+      section.classList.add("section");
+      section.setAttribute("id", `modelSection${entryCount}`);
+      section.innerHTML = `
+        <button class="delete-btn" onclick="removeEntry(${entryCount})">Delete</button>
+
+        <label>Platform:</label>
+        <select name="platform${entryCount}">
+          <option>OnlyFans</option>
+          <option>Fanvue</option>
+          <option>Fansly</option>
+        </select>
+
+        <label>Model Name:</label>
+        <input type="text" name="modelName${entryCount}" placeholder="Enter model name">
+
+        <label>Gross ($XX.XX):</label>
+        <input type="number" step="0.01" name="gross${entryCount}" oninput="updateTotals()">
+      `;
+      container.appendChild(section);
+      entryCount++;
+    }
+
+    function removeEntry(index) {
+      const section = document.getElementById(`modelSection${index}`);
+      if (section) section.remove();
+      updateTotals();
+    }
+
+    function updateTotals() {
+      let totalGross = 0;
+      for (let i = 0; i < entryCount; i++) {
+        const input = document.querySelector(`[name='gross${i}']`);
+        if (input && input.closest(".section")) {
+          const val = parseFloat(input.value || 0);
+          if (!isNaN(val)) totalGross += val;
+        }
+      }
+      const totalNet = totalGross * 0.8;
+      document.getElementById("totalGross").value = totalGross.toFixed(2);
+      document.getElementById("totalNet").value = totalNet.toFixed(2);
+    }
+
+    function getTimeString(baseName) {
+      const timeInput = document.querySelector(`[name='${baseName}']`);
+      const ampmInput = document.querySelector(`[name='${baseName}AmPm']`);
+      if (!timeInput || !ampmInput) return "";
+      const time = timeInput.value;
+      const ampm = ampmInput.value;
+      if (!time) return "";
+      return `${time} ${ampm}`;
+    }
+
+    function calculateLunchDuration(start, end) {
+      if (!start || !end) return "";
+      const parse = (t) => {
+        const [time, ap] = t.split(" ");
+        let [h, m] = time.split(":").map(Number);
+        if (ap === "PM" && h !== 12) h += 12;
+        if (ap === "AM" && h === 12) h = 0;
+        return h * 60 + m;
+      };
+      const diff = (parse(end) - parse(start) + 1440) % 1440;
+      const hrs = Math.floor(diff / 60);
+      const mins = diff % 60;
+      return `${hrs}h ${mins}m`;
+    }
+
+    function toggleLunch() {
+      const lunchSection = document.getElementById("lunch-section");
+      const toggle = document.getElementById("noLunchToggle").checked;
+      lunchSection.style.display = toggle ? "none" : "block";
+    }
+
+    function generateReport() {
+      const shiftDate = document.querySelector(`[name='shiftDate']`)?.value || "";
+      const loggingIn = getTimeString("loggingIn");
+      const loggingOff = getTimeString("loggingOff");
+
+      let lunchSection = "";
+      const noLunch = document.getElementById("noLunchToggle").checked;
+      if (noLunch) {
+        lunchSection = "Lunch: N/A\n\n";
+      } else {
+        const lunchStart = getTimeString("lunchStart");
+        const lunchEnd = getTimeString("lunchEnd");
+        const duration = calculateLunchDuration(lunchStart, lunchEnd);
+        lunchSection = `Lunch Start: ${lunchStart}\nLunch End: ${lunchEnd}\nLunch Duration: ${duration}\n\n`;
+      }
+
+      let report = `--- FONCÉ EOD REPORT ---\n\nShift Date: ${shiftDate}\nLogging In: ${loggingIn}\n${lunchSection}`;
+
+      for (let i = 0; i < entryCount; i++) {
+        const section = document.getElementById(`modelSection${i}`);
+        if (!section) continue;
+        const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
+        const model = document.querySelector(`[name='modelName${i}']`)?.value || "";
+        const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0).toFixed(2);
+        report += `Platform: ${platform}\nModel: ${model}\nGross: $${gross}\n\n`;
+      }
+
+      const totalGross = document.getElementById("totalGross").value;
+      const totalNet = document.getElementById("totalNet").value;
+      report += `Total Gross: $${totalGross}\nTotal Net: $${totalNet}\nLogging Off: ${loggingOff}`;
+
+      document.getElementById("output").innerText = report;
+    }
+
+    function copyToClipboard() {
+      const text = document.getElementById("output").innerText;
+      navigator.clipboard.writeText(text);
+      alert("Report copied to clipboard!");
+    }
+
+    function saveToFile() {
+      const text = document.getElementById("output").innerText;
+      const blob = new Blob([text], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "eod_report.txt";
+      link.click();
+    }
+
+    window.onload = addEntry;
+  </script>
+</body>
+</html>
