@@ -6,9 +6,9 @@
   <title>FONCÉ EOD REPORTING TOOL</title>
   <style>
     body {
-      background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+      background: radial-gradient(circle at top left, #1a1a1a, #0f0f0f 60%);
       font-family: "Segoe UI", sans-serif;
-      color: #000;
+      color: #f5f3f0;
       padding: 0;
       margin: 0;
       display: flex;
@@ -19,12 +19,14 @@
     /* NAVBAR */
     .navbar {
       width: 100%;
-      background-color: #ffffff;
+      background: rgba(20, 20, 20, 0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 182, 193, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 25px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      padding: 12px 25px;
+      box-shadow: 0 2px 20px rgba(255, 192, 203, 0.1);
       position: sticky;
       top: 0;
       z-index: 1000;
@@ -33,47 +35,41 @@
     .navbar-content {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 15px;
       width: 100%;
       max-width: 800px;
     }
 
     .navbar img {
-      height: 45px;
+      height: 40px;
       width: auto;
+      border-radius: 8px;
     }
 
     .navbar h1 {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 700;
-      color: #1e3a8a;
-      margin: 0;
+      background: linear-gradient(90deg, #ffb6b9, #ffd6a5, #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       letter-spacing: 1px;
-      text-align: center;
+      margin: 0;
     }
 
-.section:first-of-type {
-  margin-top: 50px;
-}
-
-    .subtitle {
-      font-style: italic;
-      color: #e5e7eb;
-      margin: 20px 0 30px;
-      text-align: center;
+    .section:first-of-type {
+      margin-top: 70px;
     }
 
     .section {
-      background-color: #ffffff;
-      border-radius: 12px;
-      padding: 20px 25px;
+      background: rgba(25, 25, 25, 0.8);
+      border: 1px solid rgba(255, 182, 193, 0.2);
+      border-radius: 14px;
+      padding: 22px 25px;
       margin-bottom: 25px;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-      position: relative;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
       width: 100%;
       max-width: 700px;
-      min-height: 220px;
       box-sizing: border-box;
     }
 
@@ -81,21 +77,28 @@
       display: block;
       font-weight: 600;
       margin-top: 10px;
+      color: #ffd6a5;
     }
 
     input,
     select {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       margin-top: 5px;
-      border: 1px solid #ccc;
+      border: 1px solid rgba(255, 192, 203, 0.3);
       border-radius: 6px;
-      background-color: #f9fafb;
+      background-color: rgba(40, 40, 40, 0.8);
+      color: #fff;
       box-sizing: border-box;
     }
 
+    input::placeholder {
+      color: #aaa;
+    }
+
     input[readonly] {
-      background-color: #e5e7eb;
+      background-color: rgba(50, 50, 50, 0.8);
+      color: #ccc;
     }
 
     .time-group {
@@ -117,31 +120,34 @@
       cursor: pointer;
       border: none;
       border-radius: 8px;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
+      letter-spacing: 0.3px;
     }
 
     button:hover {
-      opacity: 0.9;
-      transform: scale(1.02);
+      transform: translateY(-1px) scale(1.02);
+      opacity: 0.95;
     }
 
     .add-btn,
     .copy-btn,
     .save-btn {
-      background-color: #a3b18a;
+      background: linear-gradient(135deg, #ffb6b9, #ffd6a5);
       color: #000;
+      box-shadow: 0 0 12px rgba(255, 182, 193, 0.2);
     }
 
     .generate-btn {
-      background-color: #b91c1c;
+      background: linear-gradient(135deg, #8b0000, #b91c1c);
       color: #fff;
+      box-shadow: 0 0 15px rgba(185, 28, 28, 0.25);
     }
 
     .delete-btn {
       position: absolute;
       top: 10px;
       right: 10px;
-      background-color: #dc2626;
+      background: linear-gradient(135deg, #ff4b5c, #b91c1c);
       color: #fff;
       font-size: 12px;
       padding: 5px 8px;
@@ -149,14 +155,17 @@
     }
 
     #output {
-      background: #fff;
+      background: rgba(20, 20, 20, 0.85);
+      border: 1px solid rgba(255, 182, 193, 0.2);
       padding: 20px;
       border-radius: 8px;
       margin-top: 25px;
+      margin-bottom: 100px;
       white-space: pre-line;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 25px rgba(255, 182, 193, 0.1);
       width: 100%;
       max-width: 700px;
+      color: #f3f3f3;
     }
 
     /* Toggle Switch */
@@ -184,7 +193,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #ccc;
+      background-color: rgba(100, 100, 100, 0.6);
       border-radius: 26px;
       transition: 0.3s;
     }
@@ -196,20 +205,19 @@
       width: 20px;
       left: 4px;
       bottom: 3px;
-      background-color: white;
+      background-color: #fff;
       border-radius: 50%;
       transition: 0.3s;
     }
 
     input:checked + .slider {
-      background-color: #3b82f6;
+      background: linear-gradient(135deg, #ffb6b9, #ffd6a5);
     }
 
     input:checked + .slider::before {
       transform: translateX(24px);
     }
 
-    /* Centered Button Row */
     .centered-btn {
       display: flex;
       justify-content: center;
@@ -226,7 +234,6 @@
       gap: 10px;
       margin-top: 20px;
     }
-
   </style>
 </head>
 <body>
@@ -327,17 +334,14 @@
       section.setAttribute("id", `modelSection${entryCount}`);
       section.innerHTML = `
         <button class="delete-btn" onclick="removeEntry(${entryCount})">Delete</button>
-
         <label>Platform:</label>
         <select name="platform${entryCount}">
           <option>OnlyFans</option>
           <option>Fanvue</option>
           <option>Fansly</option>
         </select>
-
         <label>Model Name:</label>
         <input type="text" name="modelName${entryCount}" placeholder="Enter model name">
-
         <label>Gross ($XX.XX):</label>
         <input type="number" step="0.01" name="gross${entryCount}" oninput="updateTotals()">
       `;
@@ -400,7 +404,6 @@
       const shiftDate = document.querySelector(`[name='shiftDate']`)?.value || "";
       const loggingIn = getTimeString("loggingIn");
       const loggingOff = getTimeString("loggingOff");
-
       let lunchSection = "";
       const noLunch = document.getElementById("noLunchToggle").checked;
       if (noLunch) {
@@ -411,9 +414,7 @@
         const duration = calculateLunchDuration(lunchStart, lunchEnd);
         lunchSection = `Lunch Start: ${lunchStart}\nLunch End: ${lunchEnd}\nLunch Duration: ${duration}\n\n`;
       }
-
       let report = `--- FONCÉ EOD REPORT ---\n\nShift Date: ${shiftDate}\nLogging In: ${loggingIn}\n${lunchSection}`;
-
       for (let i = 0; i < entryCount; i++) {
         const section = document.getElementById(`modelSection${i}`);
         if (!section) continue;
@@ -422,11 +423,9 @@
         const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0).toFixed(2);
         report += `Platform: ${platform}\nModel: ${model}\nGross: $${gross}\n\n`;
       }
-
       const totalGross = document.getElementById("totalGross").value;
       const totalNet = document.getElementById("totalNet").value;
       report += `Total Gross: $${totalGross}\nTotal Net: $${totalNet}\nLogging Off: ${loggingOff}`;
-
       document.getElementById("output").innerText = report;
     }
 
