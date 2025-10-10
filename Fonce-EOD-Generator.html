@@ -439,6 +439,26 @@
       input.value = value;
       input.addEventListener('input', calculateTotal);
 
+      // --- ENTER KEY HANDLING ---
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const allInputs = Array.from(salesList.querySelectorAll('.sale-input'));
+          const idx = allInputs.indexOf(input);
+          if (idx < allInputs.length - 1) {
+            allInputs[idx + 1].focus();
+          } else {
+            // Add new sale input and focus it
+            const newContainer = createSaleInput();
+            salesList.appendChild(newContainer);
+            // Focus the new input after it's added to DOM
+            setTimeout(() => {
+              newContainer.querySelector('.sale-input').focus();
+            }, 0);
+          }
+        }
+      });
+
       const removeBtn = document.createElement('button');
       removeBtn.type = 'button';
       removeBtn.className = 'remove-sale-btn';
@@ -470,7 +490,12 @@
     }
 
     addSaleBtn.addEventListener('click', () => {
-      salesList.appendChild(createSaleInput());
+      const newContainer = createSaleInput();
+      salesList.appendChild(newContainer);
+      // Focus the new input after it's added
+      setTimeout(() => {
+        newContainer.querySelector('.sale-input').focus();
+      }, 0);
     });
 
     resetSaleBtn.addEventListener('click', () => {
