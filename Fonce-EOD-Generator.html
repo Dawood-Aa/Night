@@ -509,8 +509,9 @@
 
     // --- REPORT TOOL ---
     let entryCount = 0;
-
-    function createModelSection(index) {
+    
+    // createModelSection accepts optional data { platform, modelName, gross }
+    function createModelSection(index, data = {}) {
       const section = document.createElement("div");
       section.classList.add("section");
       section.setAttribute("id", `modelSection${index}`);
@@ -527,6 +528,19 @@
         <label>Gross ($XX.XX):</label>
         <input type="number" step="0.01" name="gross${index}" oninput="updateTotals()">
       `;
+      // apply data if present
+      if (data.platform) {
+        const sel = section.querySelector(`[name='platform${index}']`);
+        if (sel) sel.value = data.platform;
+      }
+      if (data.modelName) {
+        const mn = section.querySelector(`[name='modelName${index}']`);
+        if (mn) mn.value = data.modelName;
+      }
+      if (data.gross) {
+        const gr = section.querySelector(`[name='gross${index}']`);
+        if (gr) gr.value = data.gross;
+      }
       return section;
     }
 
@@ -543,11 +557,50 @@
       updateTotals();
     }
 
+    // localStorage helpers
+    function saveModelsToCache() {
+      const models = [];
+      for (let i = 0; i < entryCount; i++) {
+        const section = document.getElementById(`modelSection${i}`);
+        if (!section) continue;
+        const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
+        const modelName = document.querySelector(`[name='modelName${i}']`)?.value || "";
+        // const gross = document.querySelector(`[name='gross${i}']`)?.value || "";
+        // if (platform || modelName) models.push({ platform, modelName, gross });
+        // save only platform + modelName (do not persist sale amounts)
+        if (platform || modelName) models.push({ platform, modelName });
+      }
+      try {
+        localStorage.setItem('fonce_models', JSON.stringify(models));
+      } catch (e) {
+        console.warn('Could not save models to cache', e);
+      }
+    }
+
+    function loadModelsFromCache() {
+      try {
+        const raw = localStorage.getItem('fonce_models');
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length) return parsed;
+      } catch (e) { /* ignore parse errors */ }
+      return null;
+    }
+
     function initializeModelEntries() {
       const container = document.getElementById("form-container");
       container.innerHTML = '';
       entryCount = 0;
-      addEntry();
+      const cached = loadModelsFromCache();
+      if (cached && cached.length) {
+        cached.forEach(m => {
+          const s = createModelSection(entryCount, m);
+          container.appendChild(s);
+          entryCount++;
+        });
+      } else {
+        addEntry();
+      }
     }
 
     function updateTotals() {
@@ -622,6 +675,8 @@
       const totalNet = document.getElementById("totalNet").value || "0.00";
       report += `Total Gross: $${totalGross}\nTotal Net: $${totalNet}\nLogging Off: ${loggingOff}`;
       document.getElementById("output").textContent = report;
+      // save models to cache for next load
+      saveModelsToCache();
     }
 
     function copyToClipboard() {
@@ -688,7 +743,7 @@
     // Initialize calculator total on load
     calculateTotal();
 
-    // On load, initialize model entries with one section
+    // On load, initialize model entries (populates from cache if available)
     initializeModelEntries();
   </script>
 </body>
