@@ -16,7 +16,6 @@
       align-items: center;
     }
 
-    /* NAVBAR */
     .navbar {
       width: 100%;
       background: rgba(20, 20, 20, 0.85);
@@ -81,8 +80,7 @@
       color: #ffd6a5;
     }
 
-    input,
-    select {
+    input, select {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -91,10 +89,6 @@
       background-color: rgba(40, 40, 40, 0.8);
       color: #fff;
       box-sizing: border-box;
-    }
-
-    input::placeholder {
-      color: #aaa;
     }
 
     input[readonly] {
@@ -130,9 +124,7 @@
       opacity: 0.95;
     }
 
-    .add-btn,
-    .copy-btn,
-    .save-btn {
+    .add-btn, .copy-btn, .submit-btn {
       background: linear-gradient(135deg, #ffb6b9, #ffd6a5);
       color: #000;
       box-shadow: 0 0 12px rgba(255, 182, 193, 0.2);
@@ -169,64 +161,6 @@
       color: #f3f3f3;
     }
 
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .toggle-switch {
-      position: relative;
-      width: 50px;
-      height: 26px;
-    }
-
-    .toggle-switch input {
-      display: none;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(100, 100, 100, 0.6);
-      border-radius: 26px;
-      transition: 0.3s;
-    }
-
-    .slider::before {
-      content: "";
-      position: absolute;
-      height: 20px;
-      width: 20px;
-      left: 4px;
-      bottom: 3px;
-      background-color: #fff;
-      border-radius: 50%;
-      transition: 0.3s;
-    }
-
-    input:checked + .slider {
-      background: linear-gradient(135deg, #ffb6b9, #ffd6a5);
-    }
-
-    input:checked + .slider::before {
-      transform: translateX(24px);
-    }
-
-    .centered-btn {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 35px 0;
-      width: 100%;
-      max-width: 700px;
-    }
-
     .button-row {
       display: flex;
       flex-wrap: wrap;
@@ -234,106 +168,9 @@
       gap: 10px;
       margin-top: 20px;
     }
-
-    /* Calculator Styles */
-    .calculator {
-      background: rgba(25, 25, 25, 0.8);
-      border: 1px solid rgba(255, 182, 193, 0.2);
-      border-radius: 14px;
-      padding: 22px 25px;
-      margin-bottom: 25px;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
-      width: 100%;
-      max-width: 700px;
-      box-sizing: border-box;
-      position: relative;
-    }
-
-    .calculator h2 {
-      text-align: center;
-      color: #ffd6a5;
-      margin-bottom: 15px;
-    }
-
-    .sales-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .sale-input-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-    }
-
-    .sale-input {
-      flex: 1 1 auto;
-      padding: 10px;
-      border: 1px solid rgba(255, 192, 203, 0.3);
-      border-radius: 6px;
-      background-color: rgba(40, 40, 40, 0.8);
-      color: #fff;
-      font-size: 1rem;
-    }
-
-    .remove-sale-btn {
-      background: linear-gradient(135deg, #ff4b5c, #b91c1c);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 7px 12px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .remove-sale-btn:hover {
-      background: linear-gradient(135deg, #b91c1c, #ff4b5c);
-    }
-
-    .add-sale-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      margin: 18px auto 0 auto;
-      width: 60%;
-    }
-
-    .add-sale, .reset-sale {
-      flex: 1 1 0;
-      max-width: 50%;
-      min-width: 0;
-    }
-
-    .reset-sale {
-      background: linear-gradient(135deg, #ffd6a5, #ffb6b9);
-      color: #000;
-      box-shadow: 0 0 12px rgba(255, 182, 193, 0.15);
-      border-radius: 8px;
-      font-weight: bold;
-      padding: 10px 0;
-      transition: all 0.25s;
-    }
-
-    .reset-sale:hover {
-      opacity: 0.95;
-      background: linear-gradient(135deg, #ffb6b9, #ffd6a5);
-    }
-
-    .total {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #00ff88;
-    }
   </style>
 </head>
 <body>
-  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="navbar-content">
       <img src="fonce-logo.jpg" alt="FONCÉ Logo">
@@ -341,248 +178,43 @@
     </div>
   </nav>
 
-  <!-- SHIFT DETAILS -->
   <div id="shift-section" class="section">
     <label>Shift Date (mm/dd/yy EST):</label>
     <input type="date" name="shiftDate" />
     <label>Chatter Name (optional):</label>
-    <input type="text" name="chatterName" placeholder="Enter your name or chatter" />
-    <label>Shift:</label>
-    <select id="shiftSelect" name="shiftSelect" onchange="updateShiftTimes()">
-      <option value="3am-11am">🌙 Graveyard Shift (03:00 AM – 11:00 AM)</option>
-      <option value="11am-7pm">☀️ Day Shift (11:00 AM – 07:00 PM)</option>
-      <option value="7pm-3am">✨ Prime Shift (07:00 PM – 03:00 AM)</option>
-    </select>
-    <!-- Logging In/Off fields replaced by hidden inputs for script compatibility -->
-    <input type="hidden" name="loggingIn" />
-    <input type="hidden" name="loggingInAmPm" />
-    <input type="hidden" name="loggingOff" />
-    <input type="hidden" name="loggingOffAmPm" />
-    <div class="toggle-row">
-      <label>No Lunch Break</label>
-      <label class="toggle-switch">
-        <input type="checkbox" id="noLunchToggle" onchange="toggleLunch()" />
-        <span class="slider"></span>
-      </label>
-    </div>
-    <div id="lunch-section">
-      <label>Lunch Start (hh:mm AM/PM):</label>
-      <div class="time-group">
-        <input type="text" placeholder="hh:mm" name="lunchStart" />
-        <select name="lunchStartAmPm">
-          <option>AM</option>
-          <option>PM</option>
-        </select>
-      </div>
-      <label>Lunch End (hh:mm AM/PM):</label>
-      <div class="time-group">
-        <input type="text" placeholder="hh:mm" name="lunchEnd" />
-        <select name="lunchEndAmPm">
-          <option>AM</option>
-          <option>PM</option>
-        </select>
-      </div>
-    </div>
+    <input type="text" name="chatterName" placeholder="Enter your name" />
   </div>
 
-  <!-- MODEL ENTRIES -->
   <div id="form-container" class="section"></div>
   <div class="centered-btn">
     <button class="add-btn" onclick="addEntry()">+ Add Model</button>
   </div>
 
-  <!-- SALES CALCULATOR (moved down) -->
-  <div class="calculator section" id="calculatorSection">
-    <h2>Sales Calculator</h2>
-    <div class="sales-list" id="salesList">
-      <!-- Sale input containers will be generated by JS -->
-    </div>
-    <div class="add-sale-row">
-      <button class="add-sale" id="addSale">+ Add Sale</button>
-      <button class="reset-sale" id="resetSale" type="button">Reset</button>
-    </div>
-    <div class="total">Total: $<span id="total">0</span></div>
-  </div>
-
-  <!-- TOTAL SECTION -->
   <div id="bottom-section" class="section">
     <label>Total Gross:</label>
     <input type="text" id="totalGross" readonly />
     <label>Total Net:</label>
     <input type="text" id="totalNet" readonly />
-    <!-- Logging Off fields removed, handled by shift selection -->
   </div>
 
-  <!-- ACTION BUTTONS -->
   <div class="button-row">
     <button class="generate-btn" onclick="generateReport()">Generate Report</button>
     <button class="copy-btn" onclick="copyToClipboard()">Copy Report</button>
-    <button class="save-btn" onclick="saveToFile(); sendReportToWebhook()">Save Report</button>
+    <button class="submit-btn" onclick="sendReportToWebhook()">Submit Report</button>
   </div>
 
   <div id="output"></div>
 
   <script>
-    // WEBHOOK CONFIG - replace with values provided (already set below)
     const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw6go7bigAsJAwtOLm6f1ISF0tKKuHffsLRCDrTM5tZMy3Gvq2Qo_GAMIiDUDLs7Om8/exec";
     const WEBHOOK_TOKEN = "a7Xk2mP9qL0rT5vZs1bN8cYwD4eJfU";
 
-    // collect models and other fields from page
-    function collectReportDataFromPage() {
-      const shiftDate = document.querySelector(`[name='shiftDate']`)?.value || "";
-      const chatter = document.querySelector(`[name='chatterName']`)?.value || "";
-      const models = [];
-      const container = document.getElementById("form-container");
-      if (container) {
-        const sections = container.querySelectorAll("[id^='modelSection']");
-        sections.forEach(sec => {
-          const nameEl = sec.querySelector(`[name^='modelName']`);
-          const grossEl = sec.querySelector(`[name^='gross']`);
-          if (nameEl) {
-            const name = (nameEl.value || "").toString().trim();
-            const gross = grossEl ? parseFloat(grossEl.value || 0) : 0;
-            const net = Number.isFinite(gross) ? +(gross * 0.8).toFixed(2) : 0;
-            if (name) models.push({ name, gross: gross || 0, net: net || 0 });
-          }
-        });
-      }
-      const totalGross = parseFloat(document.getElementById("totalGross")?.value || 0) || 0;
-      const totalNet = parseFloat(document.getElementById("totalNet")?.value || 0) || 0;
-      const noLunch = document.getElementById("noLunchToggle")?.checked;
-      let lunch = "N/A";
-      if (!noLunch) {
-        const start = (document.querySelector("[name='lunchStart']")?.value || "").trim();
-        const startAmpm = (document.querySelector("[name='lunchStartAmPm']")?.value || "").trim();
-        const end = (document.querySelector("[name='lunchEnd']")?.value || "").trim();
-        const endAmpm = (document.querySelector("[name='lunchEndAmPm']")?.value || "").trim();
-        if (start && end) lunch = `${start} ${startAmpm} - ${end} ${endAmpm}`;
-        else lunch = `${start} ${startAmpm}` || `${end} ${endAmpm}` || "";
-      }
-      return {
-        date: shiftDate,
-        chatter: chatter,
-        models: models,
-        totalGross: +totalGross,
-        totalNet: +totalNet,
-        lunch: lunch
-      };
-    }
-
-    // send to Google Apps Script webhook (appends _token query param for simple verification)
-    async function sendReportToWebhook() {
-      const payload = collectReportDataFromPage();
-      try {
-        const res = await fetch(WEBHOOK_URL + "?_token=" + encodeURIComponent(WEBHOOK_TOKEN), {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const j = await res.json();
-        if (j.status === "success") {
-          alert("Report sent to Google Sheet");
-        } else {
-          alert("Error sending report: " + (j.message || JSON.stringify(j)));
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Network error sending report: " + (err.message || err));
-      }
-    }
-
-    // --- CALCULATOR ---
-    const addSaleBtn = document.getElementById('addSale');
-    const resetSaleBtn = document.getElementById('resetSale');
-    const salesList = document.getElementById('salesList');
-    const totalEl = document.getElementById('total');
-
-    // Helper to create a sale input with remove button
-    function createSaleInput(value = '') {
-      const container = document.createElement('div');
-      container.className = 'sale-input-container';
-
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.className = 'sale-input';
-      input.placeholder = 'Enter sale amount';
-      input.value = value;
-      input.addEventListener('input', calculateTotal);
-
-      // --- ENTER KEY HANDLING ---
-      input.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          const allInputs = Array.from(salesList.querySelectorAll('.sale-input'));
-          const idx = allInputs.indexOf(input);
-          if (idx < allInputs.length - 1) {
-            allInputs[idx + 1].focus();
-          } else {
-            // Add new sale input and focus it
-            const newContainer = createSaleInput();
-            salesList.appendChild(newContainer);
-            // Focus the new input after it's added to DOM
-            setTimeout(() => {
-              newContainer.querySelector('.sale-input').focus();
-            }, 0);
-          }
-        }
-      });
-
-      const removeBtn = document.createElement('button');
-      removeBtn.type = 'button';
-      removeBtn.className = 'remove-sale-btn';
-      removeBtn.textContent = '✕';
-      removeBtn.title = 'Remove';
-      removeBtn.onclick = function () {
-        container.remove();
-        calculateTotal();
-      };
-
-      container.appendChild(input);
-      container.appendChild(removeBtn);
-      return container;
-    }
-
-    // Initialize with one sale input
-    function initializeSalesList() {
-      salesList.innerHTML = '';
-      salesList.appendChild(createSaleInput());
-    }
-
-    function calculateTotal() {
-      const inputs = salesList.querySelectorAll('.sale-input');
-      let total = 0;
-      inputs.forEach(input => {
-        total += Number(input.value) || 0;
-      });
-      totalEl.textContent = total.toFixed(2);
-    }
-
-    addSaleBtn.addEventListener('click', () => {
-      const newContainer = createSaleInput();
-      salesList.appendChild(newContainer);
-      // Focus the new input after it's added
-      setTimeout(() => {
-        newContainer.querySelector('.sale-input').focus();
-      }, 0);
-    });
-
-    resetSaleBtn.addEventListener('click', () => {
-      initializeSalesList();
-      calculateTotal();
-    });
-
-    // Initialize calculator on load
-    initializeSalesList();
-    calculateTotal();
-
-    // --- REPORT TOOL ---
     let entryCount = 0;
-    
-    // createModelSection accepts optional data { platform, modelName, gross }
-    function createModelSection(index, data = {}) {
+
+    function createModelSection(index) {
       const section = document.createElement("div");
       section.classList.add("section");
-      section.setAttribute("id", `modelSection${index}`);
+      section.id = `modelSection${index}`;
       section.innerHTML = `
         <button class="delete-btn" onclick="removeEntry(${index})">Delete</button>
         <label>Platform:</label>
@@ -593,29 +225,15 @@
         </select>
         <label>Model Name:</label>
         <input type="text" name="modelName${index}" placeholder="Enter model name">
-        <label>Gross ($XX.XX):</label>
+        <label>Gross ($):</label>
         <input type="number" step="0.01" name="gross${index}" oninput="updateTotals()">
       `;
-      // apply data if present
-      if (data.platform) {
-        const sel = section.querySelector(`[name='platform${index}']`);
-        if (sel) sel.value = data.platform;
-      }
-      if (data.modelName) {
-        const mn = section.querySelector(`[name='modelName${index}']`);
-        if (mn) mn.value = data.modelName;
-      }
-      if (data.gross) {
-        const gr = section.querySelector(`[name='gross${index}']`);
-        if (gr) gr.value = data.gross;
-      }
       return section;
     }
 
     function addEntry() {
       const container = document.getElementById("form-container");
-      const section = createModelSection(entryCount);
-      container.appendChild(section);
+      container.appendChild(createModelSection(entryCount));
       entryCount++;
     }
 
@@ -625,195 +243,83 @@
       updateTotals();
     }
 
-    // localStorage helpers
-    function saveModelsToCache() {
-      const models = [];
-      for (let i = 0; i < entryCount; i++) {
-        const section = document.getElementById(`modelSection${i}`);
-        if (!section) continue;
-        const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
-        const modelName = document.querySelector(`[name='modelName${i}']`)?.value || "";
-        // const gross = document.querySelector(`[name='gross${i}']`)?.value || "";
-        // if (platform || modelName) models.push({ platform, modelName, gross });
-        // save only platform + modelName (do not persist sale amounts)
-        if (platform || modelName) models.push({ platform, modelName });
-      }
-      try {
-        localStorage.setItem('fonce_models', JSON.stringify(models));
-      } catch (e) {
-        console.warn('Could not save models to cache', e);
-      }
-    }
-
-    function loadModelsFromCache() {
-      try {
-        const raw = localStorage.getItem('fonce_models');
-        if (!raw) return null;
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length) return parsed;
-      } catch (e) { /* ignore parse errors */ }
-      return null;
-    }
-
-    function initializeModelEntries() {
-      const container = document.getElementById("form-container");
-      container.innerHTML = '';
-      entryCount = 0;
-      const cached = loadModelsFromCache();
-      if (cached && cached.length) {
-        cached.forEach(m => {
-          const s = createModelSection(entryCount, m);
-          container.appendChild(s);
-          entryCount++;
-        });
-      } else {
-        addEntry();
-      }
-    }
-
     function updateTotals() {
       let totalGross = 0;
       for (let i = 0; i < entryCount; i++) {
         const input = document.querySelector(`[name='gross${i}']`);
-        if (input && input.closest(".section")) {
-          const val = parseFloat(input.value || 0);
-          if (!isNaN(val)) totalGross += val;
-        }
+        if (input) totalGross += parseFloat(input.value) || 0;
       }
       const totalNet = totalGross * 0.8;
       document.getElementById("totalGross").value = totalGross.toFixed(2);
       document.getElementById("totalNet").value = totalNet.toFixed(2);
     }
 
-    function getTimeString(baseName) {
-      const timeInput = document.querySelector(`[name='${baseName}']`);
-      const ampmInput = document.querySelector(`[name='${baseName}AmPm']`);
-      if (!timeInput || !ampmInput) return "";
-      const time = timeInput.value;
-      const ampm = ampmInput.value;
-      if (!time) return "";
-      return `${time} ${ampm}`;
-    }
-
-    function calculateLunchDuration(start, end) {
-      if (!start || !end) return "";
-      const parse = (t) => {
-        const [time, ap] = t.split(" ");
-        let [h, m] = time.split(":").map(Number);
-        if (ap === "PM" && h !== 12) h += 12;
-        if (ap === "AM" && h === 12) h = 0;
-        return h * 60 + m;
-      };
-      const diff = (parse(end) - parse(start) + 1440) % 1440;
-      const hrs = Math.floor(diff / 60);
-      const mins = diff % 60;
-      return `${hrs}h ${mins}m`;
-    }
-
-    function toggleLunch() {
-      const lunchSection = document.getElementById("lunch-section");
-      const toggle = document.getElementById("noLunchToggle").checked;
-      lunchSection.style.display = toggle ? "none" : "block";
-    }
-
     function generateReport() {
-      const shiftDate = document.querySelector(`[name='shiftDate']`)?.value || "";
-      const loggingIn = getTimeString("loggingIn");
-      const loggingOff = getTimeString("loggingOff");
-      let lunchSection = "";
-      const noLunch = document.getElementById("noLunchToggle").checked;
-      if (noLunch) {
-        lunchSection = "Lunch: N/A\n\n";
-      } else {
-        const lunchStart = getTimeString("lunchStart");
-        const lunchEnd = getTimeString("lunchEnd");
-        const duration = calculateLunchDuration(lunchStart, lunchEnd);
-        lunchSection = `Lunch Start: ${lunchStart}\nLunch End: ${lunchEnd}\nLunch Duration: ${duration}\n\n`;
-      }
-      let report = `--- FONCÉ EOD REPORT ---\n\nShift Date: ${shiftDate}\nLogging In: ${loggingIn}\n${lunchSection}`;
+      const shiftDate = document.querySelector(`[name='shiftDate']`).value || "";
+      const chatter = document.querySelector(`[name='chatterName']`).value || "";
+      let report = `--- FONCÉ EOD REPORT ---\n\nShift Date: ${shiftDate}\nChatter: ${chatter}\n\n`;
+
       for (let i = 0; i < entryCount; i++) {
-        const section = document.getElementById(`modelSection${i}`);
-        if (!section) continue;
         const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
         const model = document.querySelector(`[name='modelName${i}']`)?.value || "";
         const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0).toFixed(2);
-        report += `Platform: ${platform}\nModel: ${model}\nGross: $${gross}\n\n`;
+        if (model) {
+          report += `Platform: ${platform}\nModel: ${model}\nGross: $${gross}\n\n`;
+        }
       }
+
       const totalGross = document.getElementById("totalGross").value || "0.00";
       const totalNet = document.getElementById("totalNet").value || "0.00";
-      report += `Total Gross: $${totalGross}\nTotal Net: $${totalNet}\nLogging Off: ${loggingOff}`;
+      report += `Total Gross: $${totalGross}\nTotal Net: $${totalNet}`;
+
       document.getElementById("output").textContent = report;
-      // save models to cache for next load
-      saveModelsToCache();
     }
 
     function copyToClipboard() {
-      const output = document.getElementById("output").textContent;
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(output);
-      } else {
-        // fallback for older browsers
-        const textarea = document.createElement("textarea");
-        textarea.value = output;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textarea);
+      const text = document.getElementById("output").textContent;
+      navigator.clipboard.writeText(text);
+      alert("Report copied to clipboard!");
+    }
+
+    async function sendReportToWebhook() {
+      const shiftDate = document.querySelector(`[name='shiftDate']`).value || "";
+      const chatter = document.querySelector(`[name='chatterName']`).value || "";
+      const models = [];
+      for (let i = 0; i < entryCount; i++) {
+        const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
+        const model = document.querySelector(`[name='modelName${i}']`)?.value || "";
+        const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0) || 0;
+        if (model) models.push({ platform, model, gross, net: +(gross * 0.8).toFixed(2) });
+      }
+
+      const payload = {
+        date: shiftDate,
+        chatter,
+        models,
+        totalGross: +document.getElementById("totalGross").value || 0,
+        totalNet: +document.getElementById("totalNet").value || 0
+      };
+
+      try {
+        const res = await fetch(WEBHOOK_URL + "?_token=" + encodeURIComponent(WEBHOOK_TOKEN), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        if (result.status === "success") {
+          alert("✅ Report submitted successfully!");
+        } else {
+          alert("⚠️ Error submitting report: " + (result.message || "Unknown error"));
+        }
+      } catch (err) {
+        console.error(err);
+        alert("❌ Network error sending report: " + err.message);
       }
     }
 
-    function saveToFile() {
-      const output = document.getElementById("output").textContent;
-      const blob = new Blob([output], { type: "text/plain" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "fonce_eod_report.txt";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-
-    // --- SHIFT SELECTION LOGIC ---
-    function updateShiftTimes() {
-      const shift = document.getElementById('shiftSelect').value;
-      let login = '', loginAmPm = '', logout = '', logoutAmPm = '';
-      if (shift === '3am-11am') {
-        login = '03:00'; loginAmPm = 'AM';
-        logout = '11:00'; logoutAmPm = 'AM';
-      } else if (shift === '11am-7pm') {
-        login = '11:00'; loginAmPm = 'AM';
-        logout = '07:00'; logoutAmPm = 'PM';
-      } else if (shift === '7pm-3am') {
-        login = '07:00'; loginAmPm = 'PM';
-        logout = '03:00'; logoutAmPm = 'AM';
-      }
-      document.querySelector("[name='loggingIn']").value = login;
-      document.querySelector("[name='loggingInAmPm']").value = loginAmPm;
-      document.querySelector("[name='loggingOff']").value = logout;
-      document.querySelector("[name='loggingOffAmPm']").value = logoutAmPm;
-    }
-
-    // Call once on load to set initial values
-    updateShiftTimes();
-
-    // Make functions globally accessible for HTML onclick handlers
-    window.addEntry = addEntry;
-    window.removeEntry = removeEntry;
-    window.updateTotals = updateTotals;
-    window.toggleLunch = toggleLunch;
-    window.generateReport = generateReport;
-    window.copyToClipboard = copyToClipboard;
-    window.saveToFile = saveToFile;
-    window.sendReportToWebhook = sendReportToWebhook;
-
-    // Initialize lunch section visibility on load
-    toggleLunch();
-
-    // Initialize calculator total on load
-    calculateTotal();
-
-    // On load, initialize model entries (populates from cache if available)
-    initializeModelEntries();
+    // initialize on page load
+    addEntry();
   </script>
 </body>
 </html>
