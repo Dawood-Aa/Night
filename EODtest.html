@@ -1,283 +1,831 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>foncé eod reporting tool</title>
-<style>
-  /* simple, dark, compact layout */
-  :root{
-    --bg:#0f0f10;
-    --panel:#171717;
-    --muted:#cfc7c7;
-    --accent1:#ffb6b9;
-    --accent2:#ffd6a5;
-    --green:#00ff88;
-  }
-  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
-  body{background:radial-gradient(circle at 10% 10%, #141414 0%, #0b0b0b 60%);color:var(--muted);display:flex;align-items:flex-start;justify-content:center;padding:28px 12px;}
-  .app{width:100%;max-width:920px;}
-  .navbar{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;margin-bottom:18px;background:linear-gradient(180deg, rgba(255,182,193,0.04), rgba(0,0,0,0.2));border:1px solid rgba(255,182,193,0.06)}
-  .brand{display:flex;flex-direction:column;}
-  h1{margin:0;font-size:18px;background:linear-gradient(90deg,var(--accent1),var(--accent2),#fff);-webkit-background-clip:text;color:transparent;font-weight:700;letter-spacing:.6px}
-  .sub{font-size:12px;color:#d9cfd0}
-  .grid{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
-  .panel{background:rgba(25,25,25,0.7);border-radius:12px;padding:16px;border:1px solid rgba(255,182,193,0.06);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
-  label{display:block;font-size:13px;color:var(--accent2);margin-top:10px;font-weight:600}
-  input[type="text"], input[type="date"], input[type="number"], select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,182,193,0.06);background:rgba(30,30,30,0.7);color:#fff;box-sizing:border-box}
-  .row{display:flex;gap:10px;align-items:center}
-  .small{font-size:13px;color:#bdb0b3}
-  .models{display:flex;flex-direction:column;gap:10px;margin-top:12px}
-  .model-row{display:grid;grid-template-columns:120px 1fr 110px;gap:10px;align-items:center}
-  .model-row input, .model-row select{padding:8px}
-  .btn{cursor:pointer;border:none;padding:10px 12px;border-radius:8px;font-weight:700}
-  .btn-primary{background:linear-gradient(135deg,#8b0000,#b91c1c);color:#fff;box-shadow:0 8px 20px rgba(185,28,28,0.12)}
-  .btn-accent{background:linear-gradient(135deg,var(--accent1),var(--accent2));color:#000}
-  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
-  .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
-  .output{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(12,12,12,0.6);padding:12px;border-radius:10px;border:1px solid rgba(255,182,193,0.04);color:#eaeaea}
-  .totals{margin-top:12px;font-weight:700;color:var(--green);text-align:center}
-  .muted-note{font-size:12px;color:#b8aeb0;margin-top:6px}
-  .actions{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:8px}
-  .delete-small{background:linear-gradient(135deg,#ff4b5c,#b91c1c);color:#fff;padding:6px 8px;border-radius:6px;font-size:13px}
-  @media (max-width:880px){.grid{grid-template-columns:1fr;}.actions{justify-content:center}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FONCÉ EOD REPORTING TOOL</title>
+  <style>
+    body {
+      background: radial-gradient(circle at top left, #1a1a1a, #0f0f0f 60%);
+      font-family: "Segoe UI", sans-serif;
+      color: #f5f3f0;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      width: 100%;
+      background: rgba(20, 20, 20, 0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 182, 193, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 25px;
+      box-shadow: 0 2px 20px rgba(255, 192, 203, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .navbar img {
+      height: 40px;
+      width: auto;
+      border-radius: 8px;
+    }
+
+    .navbar h1 {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #ffb6b9, #ffd6a5, #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    .section:first-of-type {
+      margin-top: 70px;
+    }
+
+    .section {
+      background: rgba(25, 25, 25, 0.8);
+      border: 1px solid rgba(255, 182, 193, 0.2);
+      border-radius: 14px;
+      padding: 22px 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 700px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 10px;
+      color: #ffd6a5;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid rgba(255, 192, 203, 0.3);
+      border-radius: 6px;
+      background-color: rgba(40, 40, 40, 0.8);
+      color: #fff;
+      box-sizing: border-box;
+    }
+
+    input::placeholder {
+      color: #aaa;
+    }
+
+    input[readonly] {
+      background-color: rgba(50, 50, 50, 0.8);
+      color: #ccc;
+    }
+
+    .time-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .time-group input {
+      width: 70%;
+    }
+
+    .time-group select {
+      width: 30%;
+    }
+
+    button {
+      padding: 10px 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+      letter-spacing: 0.3px;
+    }
+
+    button:hover {
+      transform: translateY(-1px) scale(1.02);
+      opacity: 0.95;
+    }
+
+    .add-btn,
+    .copy-btn,
+    .save-btn,
+    .submit-btn {
+      background: linear-gradient(135deg, #ffb6b9, #ffd6a5);
+      color: #000;
+      box-shadow: 0 0 12px rgba(255, 182, 193, 0.2);
+    }
+
+    .generate-btn {
+      background: linear-gradient(135deg, #8b0000, #b91c1c);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(185, 28, 28, 0.25);
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: linear-gradient(135deg, #ff4b5c, #b91c1c);
+      color: #fff;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 5px;
+    }
+
+    #output {
+      background: rgba(20, 20, 20, 0.85);
+      border: 1px solid rgba(255, 182, 193, 0.2);
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 25px;
+      margin-bottom: 100px;
+      white-space: pre-line;
+      box-shadow: 0 0 25px rgba(255, 182, 193, 0.1);
+      width: 100%;
+      max-width: 700px;
+      color: #f3f3f3;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+    }
+
+    .toggle-switch input {
+      display: none;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(100, 100, 100, 0.6);
+      border-radius: 26px;
+      transition: 0.3s;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 3px;
+      background-color: #fff;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    input:checked + .slider {
+      background: linear-gradient(135deg, #ffb6b9, #ffd6a5);
+    }
+
+    input:checked + .slider::before {
+      transform: translateX(24px);
+    }
+
+    .centered-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 35px 0;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    /* Calculator Styles */
+    .calculator {
+      background: rgba(25, 25, 25, 0.8);
+      border: 1px solid rgba(255, 182, 193, 0.2);
+      border-radius: 14px;
+      padding: 22px 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 700px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .calculator h2 {
+      text-align: center;
+      color: #ffd6a5;
+      margin-bottom: 15px;
+    }
+
+    .sales-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sale-input-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .sale-input {
+      flex: 1 1 auto;
+      padding: 10px;
+      border: 1px solid rgba(255, 192, 203, 0.3);
+      border-radius: 6px;
+      background-color: rgba(40, 40, 40, 0.8);
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .remove-sale-btn {
+      background: linear-gradient(135deg, #ff4b5c, #b91c1c);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .remove-sale-btn:hover {
+      background: linear-gradient(135deg, #b91c1c, #ff4b5c);
+    }
+
+    .add-sale-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin: 18px auto 0 auto;
+      width: 60%;
+    }
+
+    .add-sale, .reset-sale {
+      flex: 1 1 0;
+      max-width: 50%;
+      min-width: 0;
+    }
+
+    .reset-sale {
+      background: linear-gradient(135deg, #ffd6a5, #ffb6b9);
+      color: #000;
+      box-shadow: 0 0 12px rgba(255, 182, 193, 0.15);
+      border-radius: 8px;
+      font-weight: bold;
+      padding: 10px 0;
+      transition: all 0.25s;
+    }
+
+    .reset-sale:hover {
+      opacity: 0.95;
+      background: linear-gradient(135deg, #ffb6b9, #ffd6a5);
+    }
+
+    .total {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #00ff88;
+    }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <div class="navbar">
-      <div class="brand">
-        <h1>foncé eod reporting tool</h1>
-        <div class="sub">simple sheet logging • github pages friendly</div>
-      </div>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <img src="fonce-logo.jpg" alt="FONCÉ Logo">
+      <h1>FONCÉ EOD REPORTING TOOL</h1>
     </div>
+  </nav>
 
-    <div class="grid">
-      <!-- left: form -->
-      <div class="panel">
-        <label>shift date (local)</label>
-        <input id="shiftDate" type="date" />
-
-        <label>chatter name (optional)</label>
-        <input id="chatter" type="text" placeholder="enter your name or chatter" />
-
-        <label style="margin-top:14px">models</label>
-        <div class="models" id="modelsContainer"></div>
-
-        <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
-          <button class="btn btn-accent" id="addModelBtn">+ add model</button>
-          <div class="muted-note">each model has platform, name and gross</div>
-        </div>
-
-        <div class="totals" id="totalsArea" style="margin-top:12px">total gross: $0.00 &nbsp; • &nbsp; total net: $0.00</div>
-
-        <div class="controls">
-          <button class="btn btn-primary" id="generateBtn">generate report</button>
-          <button class="btn btn-ghost" id="copyBtn">copy report</button>
-          <button class="btn btn-accent" id="submitBtn">submit report</button>
-        </div>
-
-        <div class="muted-note" style="margin-top:10px">
-          after deploying the google web app, paste the web app url below and click submit report.
-        </div>
-
-        <label style="margin-top:10px">webhook url (google apps script web app)</label>
-        <input id="webhookUrl" type="text" placeholder="https://script.google.com/macros/s/XXXXX/exec" />
-
+  <!-- SHIFT DETAILS -->
+  <div id="shift-section" class="section">
+    <label>Chatter Name:</label>
+    <input type="text" name="chatterName" placeholder="Enter chatter name" />
+    <label>Shift Date (mm/dd/yy EST):</label>
+    <input type="date" name="shiftDate" />
+    <label>Shift:</label>
+    <select id="shiftSelect" name="shiftSelect" onchange="updateShiftTimes()">
+      <option value="3am-11am">🌙 Graveyard Shift (03:00 AM – 11:00 AM)</option>
+      <option value="11am-7pm">☀️ Day Shift (11:00 AM – 07:00 PM)</option>
+      <option value="7pm-3am">✨ Prime Shift (07:00 PM – 03:00 AM)</option>
+    </select>
+    <!-- Logging In/Off fields replaced by hidden inputs for script compatibility -->
+    <input type="hidden" name="loggingIn" />
+    <input type="hidden" name="loggingInAmPm" />
+    <input type="hidden" name="loggingOff" />
+    <input type="hidden" name="loggingOffAmPm" />
+    <div class="toggle-row">
+      <label>No Lunch Break</label>
+      <label class="toggle-switch">
+        <input type="checkbox" id="noLunchToggle" onchange="toggleLunch()" />
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div id="lunch-section">
+      <label>Lunch Start (hh:mm AM/PM):</label>
+      <div class="time-group">
+        <input type="text" placeholder="hh:mm" name="lunchStart" />
+        <select name="lunchStartAmPm">
+          <option>AM</option>
+          <option>PM</option>
+        </select>
       </div>
-
-      <!-- right: preview -->
-      <div class="panel">
-        <label>report preview</label>
-        <div class="output" id="output">no report yet. click generate report.</div>
-
-        <div class="actions">
-          <button class="delete-small" id="clearBtn">clear all</button>
-        </div>
-
+      <label>Lunch End (hh:mm AM/PM):</label>
+      <div class="time-group">
+        <input type="text" placeholder="hh:mm" name="lunchEnd" />
+        <select name="lunchEndAmPm">
+          <option>AM</option>
+          <option>PM</option>
+        </select>
       </div>
     </div>
   </div>
 
-<script>
-/* frontend logic - single file, minimal deps */
-(function(){
-  // initial state
-  let modelIndex = 0;
-  const modelsContainer = document.getElementById('modelsContainer');
-  const totalsArea = document.getElementById('totalsArea');
-  const outputEl = document.getElementById('output');
-  const addModelBtn = document.getElementById('addModelBtn');
-  const generateBtn = document.getElementById('generateBtn');
-  const copyBtn = document.getElementById('copyBtn');
-  const submitBtn = document.getElementById('submitBtn');
-  const clearBtn = document.getElementById('clearBtn');
+  <!-- MODEL ENTRIES -->
+  <div id="form-container" class="section"></div>
+  <div class="centered-btn">
+    <button class="add-btn" onclick="addEntry()">+ Add Model</button>
+  </div>
 
-  // helpers
-  function money(n){ return Number(n||0).toFixed(2); }
+  <!-- SALES CALCULATOR (moved down) -->
+  <div class="calculator section" id="calculatorSection">
+    <h2>Sales Calculator</h2>
+    <div class="sales-list" id="salesList">
+      <!-- Sale input containers will be generated by JS -->
+    </div>
+    <div class="add-sale-row">
+      <button class="add-sale" id="addSale">+ Add Sale</button>
+      <button class="reset-sale" id="resetSale" type="button">Reset</button>
+    </div>
+    <div class="total">Total: $<span id="total">0</span></div>
+  </div>
 
-  function createModelRow(idx, data = {}) {
-    const wrap = document.createElement('div');
-    wrap.className = 'model-row';
-    wrap.dataset.idx = idx;
+  <!-- TOTAL SECTION -->
+  <div id="bottom-section" class="section">
+    <label>Total Gross:</label>
+    <input type="text" id="totalGross" readonly />
+    <label>Total Net:</label>
+    <input type="text" id="totalNet" readonly />
+    <!-- Logging Off fields removed, handled by shift selection -->
+  </div>
 
-    const select = document.createElement('select');
-    select.name = 'platform'+idx;
-    ['OnlyFans','Fanvue','Fansly','custom'].forEach(v=>{
-      const o = document.createElement('option'); o.value = v; o.textContent = v; select.appendChild(o);
-    });
-    if(data.platform) select.value = data.platform;
+  <!-- ACTION BUTTONS -->
+  <div class="button-row">
+    <button class="generate-btn" onclick="generateReport()">Generate Report</button>
+    <button class="copy-btn" onclick="copyToClipboard()">Copy Report</button>
+    <button class="submit-btn" onclick="sendReportToWebhook()">Submit Report</button>
+  </div>
 
-    const nameInput = document.createElement('input');
-    nameInput.type = 'text';
-    nameInput.name = 'modelName'+idx;
-    nameInput.placeholder = 'model name';
-    nameInput.value = data.name || '';
+  <div id="output"></div>
 
-    const grossInput = document.createElement('input');
-    grossInput.type = 'number';
-    grossInput.step = '0.01';
-    grossInput.name = 'gross'+idx;
-    grossInput.placeholder = 'gross';
-    grossInput.value = data.gross || '';
+  <script>
+    // WEBHOOK URL you provided (no token, open)
+    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxU291l82JDLSd8edn24SUg1OlGRe0LIQBIDFDSw43y5tk5xvaCgihfxHczOb4j64uL/exec";
 
-    // remove button appended beside gross (small)
-    const removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.textContent = 'remove';
-    removeBtn.className = 'btn btn-ghost';
-    removeBtn.style.padding='8px';
-    removeBtn.onclick = ()=>{ wrap.remove(); recalcTotals(); };
+    // --- CALCULATOR ---
+    const addSaleBtn = document.getElementById('addSale');
+    const resetSaleBtn = document.getElementById('resetSale');
+    const salesList = document.getElementById('salesList');
+    const totalEl = document.getElementById('total');
 
-    // place elements nicely: platform | name | gross+remove (we'll append remove under gross)
-    // since css grid uses 3 columns, append gross + remove in a small container
-    const grossWrap = document.createElement('div');
-    grossWrap.style.display='flex';
-    grossWrap.style.gap='8px';
-    grossWrap.appendChild(grossInput);
-    grossWrap.appendChild(removeBtn);
+    function createSaleInput(value = '') {
+      const container = document.createElement('div');
+      container.className = 'sale-input-container';
 
-    wrap.appendChild(select);
-    wrap.appendChild(nameInput);
-    wrap.appendChild(grossWrap);
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.className = 'sale-input';
+      input.placeholder = 'Enter sale amount';
+      input.value = value;
+      input.addEventListener('input', calculateTotal);
 
-    // update totals when gross changes
-    grossInput.addEventListener('input', recalcTotals);
-    nameInput.addEventListener('input', ()=>{ /* no-op for now */ });
-
-    return wrap;
-  }
-
-  function addModel(data){
-    const row = createModelRow(modelIndex++, data);
-    modelsContainer.appendChild(row);
-    recalcTotals();
-  }
-
-  function recalcTotals(){
-    const rows = modelsContainer.querySelectorAll('.model-row');
-    let grossTotal = 0;
-    rows.forEach(r=>{
-      const idx = r.dataset.idx;
-      const g = parseFloat((r.querySelector(`[name='gross${idx}']`)?.value)||0) || 0;
-      grossTotal += g;
-    });
-    const net = grossTotal * 0.8;
-    totalsArea.textContent = `total gross: $${money(grossTotal)}  •  total net: $${money(net)}`;
-  }
-
-  function collectReport(){
-    const shiftDate = document.getElementById('shiftDate').value || '';
-    const chatter = document.getElementById('chatter').value.trim() || '';
-    const models = [];
-    const rows = modelsContainer.querySelectorAll('.model-row');
-    rows.forEach(r=>{
-      const idx = r.dataset.idx;
-      const platform = r.querySelector(`[name='platform${idx}']`)?.value || '';
-      const name = r.querySelector(`[name='modelName${idx}']`)?.value.trim() || '';
-      const gross = parseFloat(r.querySelector(`[name='gross${idx}']`)?.value || 0) || 0;
-      if(name) models.push({ platform, name, gross, net: +(gross*0.8).toFixed(2) });
-    });
-    const totalGross = models.reduce((s,m)=>s+m.gross,0);
-    const totalNet = +(totalGross * 0.8).toFixed(2);
-    return { date: shiftDate, chatter, models, totalGross: +totalGross.toFixed(2), totalNet };
-  }
-
-  function generateTextReport(data){
-    let out = '--- foncé eod report ---\\n\\n';
-    out += `date: ${data.date || '(not set)'}\\n`;
-    out += `chatter: ${data.chatter || '(none)'}\\n\\n`;
-    if(data.models.length===0) out += '(no models)\\n\\n';
-    data.models.forEach(m=>{
-      out += `platform: ${m.platform}\\nmodel: ${m.name}\\ngross: $${money(m.gross)}\\nnet: $${money(m.net)}\\n\\n`;
-    });
-    out += `total gross: $${money(data.totalGross)}\\ntotal net: $${money(data.totalNet)}`;
-    return out;
-  }
-
-  // wire UI
-  addModelBtn.onclick = ()=> addModel();
-  generateBtn.onclick = ()=>{
-    const data = collectReport();
-    outputEl.textContent = generateTextReport(data);
-    recalcTotals();
-  };
-  copyBtn.onclick = ()=>{
-    const txt = outputEl.textContent;
-    if(!txt || txt.includes('no report')){ alert('generate the report first'); return; }
-    navigator.clipboard?.writeText(txt).then(()=>alert('report copied to clipboard'), ()=>alert('could not copy'));
-  };
-
-  submitBtn.onclick = async ()=>{
-    const webhook = (document.getElementById('webhookUrl')?.value || '').trim();
-    if(!webhook){ alert('paste your deployed google apps script web app url in the webhook field'); return; }
-
-    // prepare data and preview
-    const data = collectReport();
-    outputEl.textContent = generateTextReport(data);
-    recalcTotals();
-
-    // basic validation
-    if(!data.date){ if(!confirm('no date set. continue?')) return; }
-
-    // send
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'sending...';
-    try {
-      const res = await fetch(webhook, {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const allInputs = Array.from(salesList.querySelectorAll('.sale-input'));
+          const idx = allInputs.indexOf(input);
+          if (idx < allInputs.length - 1) {
+            allInputs[idx + 1].focus();
+          } else {
+            const newContainer = createSaleInput();
+            salesList.appendChild(newContainer);
+            setTimeout(() => {
+              newContainer.querySelector('.sale-input').focus();
+            }, 0);
+          }
+        }
       });
-      // try json first, but fallback to text
-      let parsed;
-      try { parsed = await res.json(); } catch(e) { parsed = await res.text(); }
-      alert('server responded: ' + (typeof parsed === 'string' ? parsed : JSON.stringify(parsed)));
-    } catch (err){
-      console.error('network error sending report', err);
-      alert('network error sending report: ' + (err && err.message ? err.message : String(err)));
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'submit report';
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'remove-sale-btn';
+      removeBtn.textContent = '✕';
+      removeBtn.title = 'Remove';
+      removeBtn.onclick = function () {
+        container.remove();
+        calculateTotal();
+      };
+
+      container.appendChild(input);
+      container.appendChild(removeBtn);
+      return container;
     }
-  };
 
-  clearBtn.onclick = ()=>{
-    if(!confirm('clear all models and inputs?')) return;
-    document.getElementById('shiftDate').value = '';
-    document.getElementById('chatter').value = '';
-    document.getElementById('webhookUrl').value = '';
-    modelsContainer.innerHTML = '';
-    modelIndex = 0;
-    addModel();
-    outputEl.textContent = 'no report yet. click generate report.';
-    recalcTotals();
-  };
+    function initializeSalesList() {
+      salesList.innerHTML = '';
+      salesList.appendChild(createSaleInput());
+    }
 
-  // init with one row
-  addModel();
-})();
-</script>
+    function calculateTotal() {
+      const inputs = salesList.querySelectorAll('.sale-input');
+      let total = 0;
+      inputs.forEach(input => {
+        total += Number(input.value) || 0;
+      });
+      totalEl.textContent = total.toFixed(2);
+    }
+
+    addSaleBtn.addEventListener('click', () => {
+      const newContainer = createSaleInput();
+      salesList.appendChild(newContainer);
+      setTimeout(() => {
+        newContainer.querySelector('.sale-input').focus();
+      }, 0);
+    });
+
+    resetSaleBtn.addEventListener('click', () => {
+      initializeSalesList();
+      calculateTotal();
+    });
+
+    initializeSalesList();
+    calculateTotal();
+
+    // --- REPORT TOOL ---
+    let entryCount = 0;
+
+    function createModelSection(index, data = {}) {
+      const section = document.createElement("div");
+      section.classList.add("section");
+      section.setAttribute("id", `modelSection${index}`);
+      section.innerHTML = `
+        <button class="delete-btn" onclick="removeEntry(${index})">Delete</button>
+        <label>Platform:</label>
+        <select name="platform${index}">
+          <option>OnlyFans</option>
+          <option>Fanvue</option>
+          <option>Fansly</option>
+        </select>
+        <label>Model Name:</label>
+        <input type="text" name="modelName${index}" placeholder="Enter model name">
+        <label>Gross ($XX.XX):</label>
+        <input type="number" step="0.01" name="gross${index}" oninput="updateTotals()">
+      `;
+      if (data.platform) {
+        const sel = section.querySelector(`[name='platform${index}']`);
+        if (sel) sel.value = data.platform;
+      }
+      if (data.modelName) {
+        const mn = section.querySelector(`[name='modelName${index}']`);
+        if (mn) mn.value = data.modelName;
+      }
+      if (data.gross) {
+        const gr = section.querySelector(`[name='gross${index}']`);
+        if (gr) gr.value = data.gross;
+      }
+      return section;
+    }
+
+    function addEntry() {
+      const container = document.getElementById("form-container");
+      const section = createModelSection(entryCount);
+      container.appendChild(section);
+      entryCount++;
+    }
+
+    function removeEntry(index) {
+      const section = document.getElementById(`modelSection${index}`);
+      if (section) section.remove();
+      updateTotals();
+    }
+
+    function saveModelsToCache() {
+      const models = [];
+      for (let i = 0; i < entryCount; i++) {
+        const section = document.getElementById(`modelSection${i}`);
+        if (!section) continue;
+        const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
+        const modelName = document.querySelector(`[name='modelName${i}']`)?.value || "";
+        if (platform || modelName) models.push({ platform, modelName });
+      }
+      try {
+        localStorage.setItem('fonce_models', JSON.stringify(models));
+      } catch (e) {
+        console.warn('Could not save models to cache', e);
+      }
+    }
+
+    function loadModelsFromCache() {
+      try {
+        const raw = localStorage.getItem('fonce_models');
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length) return parsed;
+      } catch (e) { }
+      return null;
+    }
+
+    function initializeModelEntries() {
+      const container = document.getElementById("form-container");
+      container.innerHTML = '';
+      entryCount = 0;
+      const cached = loadModelsFromCache();
+      if (cached && cached.length) {
+        cached.forEach(m => {
+          const s = createModelSection(entryCount, m);
+          container.appendChild(s);
+          entryCount++;
+        });
+      } else {
+        addEntry();
+      }
+    }
+
+    function updateTotals() {
+      let totalGross = 0;
+      for (let i = 0; i < entryCount; i++) {
+        const input = document.querySelector(`[name='gross${i}']`);
+        if (input && input.closest(".section")) {
+          const val = parseFloat(input.value || 0);
+          if (!isNaN(val)) totalGross += val;
+        }
+      }
+      const totalNet = totalGross * 0.8;
+      document.getElementById("totalGross").value = totalGross.toFixed(2);
+      document.getElementById("totalNet").value = totalNet.toFixed(2);
+    }
+
+    function getTimeString(baseName) {
+      const timeInput = document.querySelector(`[name='${baseName}']`);
+      const ampmInput = document.querySelector(`[name='${baseName}AmPm']`);
+      if (!timeInput || !ampmInput) return "";
+      const time = timeInput.value;
+      const ampm = ampmInput.value;
+      if (!time) return "";
+      return `${time} ${ampm}`;
+    }
+
+    function calculateLunchDuration(start, end) {
+      if (!start || !end) return "";
+      const parse = (t) => {
+        const [time, ap] = t.split(" ");
+        let [h, m] = time.split(":").map(Number);
+        if (ap === "PM" && h !== 12) h += 12;
+        if (ap === "AM" && h === 12) h = 0;
+        return h * 60 + m;
+      };
+      const diff = (parse(end) - parse(start) + 1440) % 1440;
+      const hrs = Math.floor(diff / 60);
+      const mins = diff % 60;
+      return `${hrs}h ${mins}m`;
+    }
+
+    function toggleLunch() {
+      const lunchSection = document.getElementById("lunch-section");
+      const toggle = document.getElementById("noLunchToggle").checked;
+      lunchSection.style.display = toggle ? "none" : "block";
+    }
+
+    function generateReport() {
+      const shiftDate = document.querySelector(`[name='shiftDate']`)?.value || "";
+      const loggingIn = getTimeString("loggingIn");
+      const loggingOff = getTimeString("loggingOff");
+      const shiftSelected = document.getElementById('shiftSelect')?.value || '';
+      let lunchSection = "";
+      const noLunch = document.getElementById("noLunchToggle").checked;
+      let lunchStart = '', lunchEnd = '', lunchDuration = '';
+      if (noLunch) {
+        lunchSection = "Lunch: N/A\n\n";
+      } else {
+        lunchStart = getTimeString("lunchStart");
+        lunchEnd = getTimeString("lunchEnd");
+        lunchDuration = calculateLunchDuration(lunchStart, lunchEnd);
+        lunchSection = `Lunch Start: ${lunchStart}\nLunch End: ${lunchEnd}\nLunch Duration: ${lunchDuration}\n\n`;
+      }
+      let report = `--- FONCÉ EOD REPORT ---\n\nShift Date: ${shiftDate}\nShift: ${shiftSelected}\nLogging In: ${loggingIn}\n${lunchSection}`;
+      for (let i = 0; i < entryCount; i++) {
+        const section = document.getElementById(`modelSection${i}`);
+        if (!section) continue;
+        const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
+        const model = document.querySelector(`[name='modelName${i}']`)?.value || "";
+        const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0).toFixed(2);
+        report += `Platform: ${platform}\nModel: ${model}\nGross: $${gross}\n\n`;
+      }
+      const totalGross = document.getElementById("totalGross").value || "0.00";
+      const totalNet = document.getElementById("totalNet").value || "0.00";
+      report += `Total Gross: $${totalGross}\nTotal Net: $${totalNet}\nLogging Off: ${loggingOff}`;
+      document.getElementById("output").textContent = report;
+      // save models to cache for next load
+      saveModelsToCache();
+    }
+
+    function copyToClipboard() {
+      const output = document.getElementById("output").textContent;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(output);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = output;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+    }
+
+    function saveToFile() {
+      const output = document.getElementById("output").textContent;
+      const blob = new Blob([output], { type: "text/plain" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "fonce_eod_report.txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // --- NEW: send structured data to webhook ---
+    async function sendReportToWebhook() {
+      // generate preview so output is up to date
+      generateReport();
+
+      // collect structured data
+      const shiftDate = document.querySelector(`[name='shiftDate']`)?.value || "";
+      const shiftSelected = document.getElementById('shiftSelect')?.value || '';
+      const chatter = document.querySelector(`[name='chatterName']`)?.value || "";
+      const loggingIn = document.querySelector(`[name='loggingIn']`)?.value || "";
+      const loggingInAm = document.querySelector(`[name='loggingInAmPm']`)?.value || "";
+      const loggingOff = document.querySelector(`[name='loggingOff']`)?.value || "";
+      const loggingOffAm = document.querySelector(`[name='loggingOffAmPm']`)?.value || "";
+      const noLunch = document.getElementById("noLunchToggle").checked;
+      const lunchStart = (document.querySelector("[name='lunchStart']")?.value || "").trim();
+      const lunchStartAmpm = (document.querySelector("[name='lunchStartAmPm']")?.value || "").trim();
+      const lunchEnd = (document.querySelector("[name='lunchEnd']")?.value || "").trim();
+      const lunchEndAmpm = (document.querySelector("[name='lunchEndAmPm']")?.value || "").trim();
+
+      const models = [];
+      for (let i = 0; i < entryCount; i++) {
+        const section = document.getElementById(`modelSection${i}`);
+        if (!section) continue;
+        const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
+        const name = document.querySelector(`[name='modelName${i}']`)?.value || "";
+        const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0) || 0;
+        const net = +(gross * 0.8).toFixed(2);
+        if (name) models.push({ platform, name, gross, net });
+      }
+
+      const totalGross = parseFloat(document.getElementById("totalGross")?.value || 0) || 0;
+      const totalNet = parseFloat(document.getElementById("totalNet")?.value || 0) || 0;
+
+      const payload = {
+        date: shiftDate,
+        shift: shiftSelected,
+        chatter: chatter,
+        loggingIn: loggingIn ? `${loggingIn} ${loggingInAm}` : '',
+        loggingOff: loggingOff ? `${loggingOff} ${loggingOffAm}` : '',
+        lunch: noLunch ? 'N/A' : ((lunchStart ? (lunchStart + ' ' + lunchStartAmpm) : '') + (lunchEnd ? (' - ' + lunchEnd + ' ' + lunchEndAmpm) : '')),
+        models: models,
+        totalGross: +totalGross.toFixed(2),
+        totalNet: +totalNet.toFixed(2),
+        timestamp: new Date().toISOString()
+      };
+
+      // basic validation
+      if (!payload.models.length) {
+        if (!confirm('no models added — submit empty report?')) return;
+      }
+
+      // disable submit button while sending
+      const btn = document.querySelector('.submit-btn');
+      btn.disabled = true;
+      const prevText = btn.textContent;
+      btn.textContent = 'sending...';
+
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        // try parse as json, fall back to text
+        let server;
+        try { server = await res.json(); }
+        catch (e) { server = await res.text(); }
+
+        if (res.ok) {
+          alert('✅ report submitted. server responded: ' + (typeof server === 'string' ? server : JSON.stringify(server)));
+          // keep same behavior as before: save models to cache
+          saveModelsToCache();
+        } else {
+          alert('⚠️ server error: ' + (typeof server === 'string' ? server : JSON.stringify(server)));
+        }
+      } catch (err) {
+        console.error('network error sending report', err);
+        alert('❌ Network error sending report: ' + (err && err.message ? err.message : String(err)));
+      } finally {
+        btn.disabled = false;
+        btn.textContent = prevText;
+      }
+    }
+
+    // --- SHIFT SELECTION LOGIC ---
+    function updateShiftTimes() {
+      const shift = document.getElementById('shiftSelect').value;
+      let login = '', loginAmPm = '', logout = '', logoutAmPm = '';
+      if (shift === '3am-11am') {
+        login = '03:00'; loginAmPm = 'AM';
+        logout = '11:00'; logoutAmPm = 'AM';
+      } else if (shift === '11am-7pm') {
+        login = '11:00'; loginAmPm = 'AM';
+        logout = '07:00'; logoutAmPm = 'PM';
+      } else if (shift === '7pm-3am') {
+        login = '07:00'; loginAmPm = 'PM';
+        logout = '03:00'; logoutAmPm = 'AM';
+      }
+      document.querySelector("[name='loggingIn']").value = login;
+      document.querySelector("[name='loggingInAmPm']").value = loginAmPm;
+      document.querySelector("[name='loggingOff']").value = logout;
+      document.querySelector("[name='loggingOffAmPm']").value = logoutAmPm;
+    }
+
+    // Call once on load to set initial values
+    updateShiftTimes();
+
+    // Make functions globally accessible for HTML onclick handlers
+    window.addEntry = addEntry;
+    window.removeEntry = removeEntry;
+    window.updateTotals = updateTotals;
+    window.toggleLunch = toggleLunch;
+    window.generateReport = generateReport;
+    window.copyToClipboard = copyToClipboard;
+    window.saveToFile = saveToFile;
+    window.sendReportToWebhook = sendReportToWebhook;
+
+    // Initialize lunch section visibility on load
+    toggleLunch();
+
+    // Initialize calculator total on load
+    calculateTotal();
+
+    // On load, initialize model entries (populates from cache if available)
+    initializeModelEntries();
+  </script>
 </body>
 </html>
