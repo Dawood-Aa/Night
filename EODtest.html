@@ -640,7 +640,7 @@
     };
 
     try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbymKVw7-3O0E2K3a2Xy1txR0Ozge7bPM7x59dUwlys8xxbksc8LnNPoC8JSck85ozBC/exec", {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbwwPChalYD5eInlM6TTrLbbP58yJi2Vmiiik_Ce7q0j9cg5r6D4rmkd9pNZMedFRUzZ/exec", {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
@@ -681,7 +681,7 @@
   }
   async function sendReportToWebhook(reportData) {
   try {
-    const webhookUrl = "https://script.google.com/macros/s/AKfycbymKVw7-3O0E2K3a2Xy1txR0Ozge7bPM7x59dUwlys8xxbksc8LnNPoC8JSck85ozBC/exec";
+    const webhookUrl = "https://script.google.com/macros/s/AKfycbwwPChalYD5eInlM6TTrLbbP58yJi2Vmiiik_Ce7q0j9cg5r6D4rmkd9pNZMedFRUzZ/exec";
 
     const response = await fetch(webhookUrl, {
       method: "POST",
