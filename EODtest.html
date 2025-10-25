@@ -756,11 +756,27 @@ const WEBHOOK_URL = "https://corsproxy.io/?" + encodeURIComponent("https://scrip
       btn.textContent = 'sending...';
 
       try {
-        const res = await fetch(WEBHOOK_URL, {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+const res = await fetch(WEBHOOK_URL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(payload),
+  redirect: 'follow'
+});
+
+let serverText;
+try {
+  serverText = await res.text();
+} catch (e) {
+  serverText = '(no response text)';
+}
+
+if (res.ok) {
+  alert('✅ Report submitted! Server responded: ' + serverText);
+  saveModelsToCache();
+} else {
+  alert('⚠️ Server error: ' + serverText);
+}
+
         });
 
         // try parse as json, fall back to text
