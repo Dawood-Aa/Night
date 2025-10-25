@@ -679,6 +679,26 @@
     document.querySelector("[name='loggingOff']").value = times[2];
     document.querySelector("[name='loggingOffAmPm']").value = times[3];
   }
+  async function sendReportToWebhook(reportData) {
+  try {
+    const webhookUrl = "https://script.google.com/macros/s/AKfycbxoMj7IchUNCzTEg8iEbsXrcg1WZmEi851h2RFXZz-2O7GdDvgFpvIVxg9lvfsjBkES/exec";
+
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(reportData)
+    });
+
+    // Since "no-cors" doesn’t return a real response, we assume success if no exception
+    alert("✅ Report submitted successfully!");
+  } catch (error) {
+    console.error("Error sending report:", error);
+    alert("❌ Error sending report: " + error.message);
+  }
+}
 
   updateShiftTimes();
   toggleLunch();
