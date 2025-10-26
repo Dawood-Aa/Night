@@ -601,6 +601,7 @@
     lunchSection.style.display = document.getElementById("noLunchToggle").checked ? "none" : "block";
   }
 
+  // ✅ Generate Report (display only)
   async function generateReport() {
     const shiftDate = document.querySelector(`[name='shiftDate']`)?.value || "";
     const loggingIn = getTimeString("loggingIn");
@@ -614,15 +615,12 @@
     if (noLunch) report += "Lunch: N/A\n\n";
     else report += `Lunch Start: ${lunchStart}\nLunch End: ${lunchEnd}\nLunch Duration: ${lunchDuration}\n\n`;
 
-    const chatters = [];
     const chatterName = document.querySelector(`[name='chatterName']`)?.value || "Unknown";
-    const models = [];
 
     for (let i = 0; i < entryCount; i++) {
       const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
       const model = document.querySelector(`[name='modelName${i}']`)?.value || "";
       const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0).toFixed(2);
-      models.push({ platform, model, gross });
       report += `Platform: ${platform}\nModel: ${model}\nGross: $${gross}\n\n`;
     }
 
@@ -632,23 +630,38 @@
 
     document.getElementById("output").textContent = report;
     saveModelsToCache();
+  }
 
-    // --- SEND TO GOOGLE SHEET ---
-    const payload = {
-      date: shiftDate,
-      chatters: [{ name: chatterName, models }]
-    };
+  // ✅ Build report data (for webhook)
+  function generateReportData() {
+    const shiftDate = document.querySelector(`[name='shiftDate']`)?.value || "";
+    const chatterName = document.querySelector(`[name='chatterName']`)?.value || "Unknown";
+    const models = [];
 
+    for (let i = 0; i < entryCount; i++) {
+      const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
+      const model = document.querySelector(`[name='modelName${i}']`)?.value || "";
+      const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0).toFixed(2);
+      models.push({ platform, model, gross });
+    }
+
+    return { date: shiftDate, chatters: [{ name: chatterName, models }] };
+  }
+
+  // ✅ Submit report to webhook (manual only)
+  async function sendReportToWebhook(reportData) {
     try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbyINf9nRwWt25fXwCWWLzXlLTYje60NBm44ot3dOyYJMFwlVGJnisKH8fclid2FAw-1/exec", {
+      const webhookUrl = "https://script.google.com/macros/s/AKfycbyINf9nRwWt25fXwCWWLzXlLTYje60NBm44ot3dOyYJMFwlVGJnisKH8fclid2FAw-1/exec";
+      await fetch(webhookUrl, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(reportData)
       });
       alert("✅ Report submitted successfully!");
-    } catch (err) {
-      alert("❌ Network error: " + err.message);
+    } catch (error) {
+      console.error("Error sending report:", error);
+      alert("❌ Error sending report: " + error.message);
     }
   }
 
@@ -679,39 +692,24 @@
     document.querySelector("[name='loggingOff']").value = times[2];
     document.querySelector("[name='loggingOffAmPm']").value = times[3];
   }
-  async function sendReportToWebhook(reportData) {
-  try {
-    const webhookUrl = "https://script.google.com/macros/s/AKfycbyINf9nRwWt25fXwCWWLzXlLTYje60NBm44ot3dOyYJMFwlVGJnisKH8fclid2FAw-1/exec";
 
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(reportData)
-    });
-
-    // Since "no-cors" doesn’t return a real response, we assume success if no exception
-    alert("✅ Report submitted successfully!");
-  } catch (error) {
-    console.error("Error sending report:", error);
-    alert("❌ Error sending report: " + error.message);
-  }
-}
-
+  // Initialize defaults
   updateShiftTimes();
   toggleLunch();
   initializeModelEntries();
   calculateTotal();
 
+  // Expose functions globally
   window.addEntry = addEntry;
   window.removeEntry = removeEntry;
   window.updateTotals = updateTotals;
   window.toggleLunch = toggleLunch;
   window.generateReport = generateReport;
+  window.generateReportData = generateReportData;
+  window.sendReportToWebhook = sendReportToWebhook;
   window.copyToClipboard = copyToClipboard;
   window.saveToFile = saveToFile;
 </script>
+
 </body>
 </html>
