@@ -418,8 +418,7 @@
   <div class="button-row">
     <button class="generate-btn" onclick="generateReport()">Generate Report</button>
     <button class="copy-btn" onclick="copyToClipboard()">Copy Report</button>
-<button class="submit-btn" onclick="sendReportToWebhook(generateReportData())">Submit Report</button>
-
+    <button class="submit-btn" onclick="sendReportToWebhook(generateReportData())"> Submit Report </button>
   </div>
 
   <div id="output"></div>
@@ -634,6 +633,24 @@
     document.getElementById("output").textContent = report;
     saveModelsToCache();
 
+    // --- SEND TO GOOGLE SHEET ---
+    const payload = {
+      date: shiftDate,
+      chatters: [{ name: chatterName, models }]
+    };
+
+    try {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbyINf9nRwWt25fXwCWWLzXlLTYje60NBm44ot3dOyYJMFwlVGJnisKH8fclid2FAw-1/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      alert("✅ Report submitted successfully!");
+    } catch (err) {
+      alert("❌ Network error: " + err.message);
+    }
+  }
 
   function copyToClipboard() {
     const output = document.getElementById("output").textContent;
@@ -662,22 +679,6 @@
     document.querySelector("[name='loggingOff']").value = times[2];
     document.querySelector("[name='loggingOffAmPm']").value = times[3];
   }
-
-    function generateReportData() {
-  const shiftDate = document.querySelector(`[name='shiftDate']`)?.value || "";
-  const chatterName = document.querySelector(`[name='chatterName']`)?.value || "Unknown";
-  const models = [];
-
-  for (let i = 0; i < entryCount; i++) {
-    const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
-    const model = document.querySelector(`[name='modelName${i}']`)?.value || "";
-    const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0).toFixed(2);
-    models.push({ platform, model, gross });
-  }
-
-  return { date: shiftDate, chatters: [{ name: chatterName, models }] };
-}
-
   async function sendReportToWebhook(reportData) {
   try {
     const webhookUrl = "https://script.google.com/macros/s/AKfycbyINf9nRwWt25fXwCWWLzXlLTYje60NBm44ot3dOyYJMFwlVGJnisKH8fclid2FAw-1/exec";
