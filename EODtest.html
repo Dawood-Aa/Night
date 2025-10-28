@@ -15,8 +15,6 @@
       flex-direction: column;
       align-items: center;
     }
-
-    /* NAVBAR */
     .navbar {
       width: 100%;
       background: rgba(20, 20, 20, 0.85);
@@ -31,7 +29,6 @@
       top: 0;
       z-index: 1000;
     }
-
     .navbar-content {
       display: flex;
       align-items: center;
@@ -40,13 +37,11 @@
       width: 100%;
       max-width: 800px;
     }
-
     .navbar img {
       height: 40px;
       width: auto;
       border-radius: 8px;
     }
-
     .navbar h1 {
       font-size: 24px;
       font-weight: 700;
@@ -56,11 +51,7 @@
       letter-spacing: 1px;
       margin: 0;
     }
-
-    .section:first-of-type {
-      margin-top: 70px;
-    }
-
+    .section:first-of-type { margin-top: 70px; }
     .section {
       background: rgba(25, 25, 25, 0.8);
       border: 1px solid rgba(255, 182, 193, 0.2);
@@ -73,16 +64,13 @@
       box-sizing: border-box;
       position: relative;
     }
-
     label {
       display: block;
       font-weight: 600;
       margin-top: 10px;
       color: #ffd6a5;
     }
-
-    input,
-    select {
+    input, select {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -92,29 +80,11 @@
       color: #fff;
       box-sizing: border-box;
     }
-
-    input::placeholder {
-      color: #aaa;
-    }
-
-    input[readonly] {
-      background-color: rgba(50, 50, 50, 0.8);
-      color: #ccc;
-    }
-
-    .time-group {
-      display: flex;
-      gap: 10px;
-    }
-
-    .time-group input {
-      width: 70%;
-    }
-
-    .time-group select {
-      width: 30%;
-    }
-
+    input::placeholder { color: #aaa; }
+    input[readonly] { background-color: rgba(50, 50, 50, 0.8); color: #ccc; }
+    .time-group { display: flex; gap: 10px; }
+    .time-group input { width: 70%; }
+    .time-group select { width: 30%; }
     button {
       padding: 10px 16px;
       font-weight: bold;
@@ -124,38 +94,22 @@
       transition: all 0.25s ease;
       letter-spacing: 0.3px;
     }
-
-    button:hover {
-      transform: translateY(-1px) scale(1.02);
-      opacity: 0.95;
-    }
-
-    .add-btn,
-    .copy-btn,
-    .save-btn,
-    .submit-btn {
+    button:hover { transform: translateY(-1px) scale(1.02); opacity: 0.95; }
+    .add-btn, .copy-btn, .save-btn, .submit-btn {
       background: linear-gradient(135deg, #ffb6b9, #ffd6a5);
       color: #000;
       box-shadow: 0 0 12px rgba(255, 182, 193, 0.2);
     }
-
     .generate-btn {
       background: linear-gradient(135deg, #8b0000, #b91c1c);
       color: #fff;
       box-shadow: 0 0 15px rgba(185, 28, 28, 0.25);
     }
-
     .delete-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
+      position: absolute; top: 10px; right: 10px;
       background: linear-gradient(135deg, #ff4b5c, #b91c1c);
-      color: #fff;
-      font-size: 12px;
-      padding: 5px 8px;
-      border-radius: 5px;
+      color: #fff; font-size: 12px; padding: 5px 8px; border-radius: 5px;
     }
-
     #output {
       background: rgba(20, 20, 20, 0.85);
       border: 1px solid rgba(255, 182, 193, 0.2);
@@ -169,172 +123,48 @@
       max-width: 700px;
       color: #f3f3f3;
     }
-
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .toggle-switch {
-      position: relative;
-      width: 50px;
-      height: 26px;
-    }
-
-    .toggle-switch input {
-      display: none;
-    }
-
+    .toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+    .toggle-switch { position: relative; width: 50px; height: 26px; }
+    .toggle-switch input { display: none; }
     .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(100, 100, 100, 0.6);
-      border-radius: 26px;
-      transition: 0.3s;
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(100, 100, 100, 0.6); border-radius: 26px; transition: 0.3s;
     }
-
     .slider::before {
-      content: "";
-      position: absolute;
-      height: 20px;
-      width: 20px;
-      left: 4px;
-      bottom: 3px;
-      background-color: #fff;
-      border-radius: 50%;
-      transition: 0.3s;
+      content: ""; position: absolute; height: 20px; width: 20px; left: 4px; bottom: 3px;
+      background-color: #fff; border-radius: 50%; transition: 0.3s;
     }
-
-    input:checked + .slider {
-      background: linear-gradient(135deg, #ffb6b9, #ffd6a5);
+    input:checked + .slider { background: linear-gradient(135deg, #ffb6b9, #ffd6a5); }
+    input:checked + .slider::before { transform: translateX(24px); }
+    .centered-btn { display: flex; justify-content: center; align-items: center; margin: 35px 0; width: 100%; max-width: 700px; }
+    .button-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
+    .calculator { background: rgba(25, 25, 25, 0.8); border: 1px solid rgba(255, 182, 193, 0.2);
+      border-radius: 14px; padding: 22px 25px; margin-bottom: 25px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3); width: 100%; max-width: 700px;
+      box-sizing: border-box; position: relative;
     }
-
-    input:checked + .slider::before {
-      transform: translateX(24px);
+    .calculator h2 { text-align: center; color: #ffd6a5; margin-bottom: 15px; }
+    .sales-list { display: flex; flex-direction: column; gap: 10px; }
+    .sale-input-container { display: flex; align-items: center; gap: 10px; width: 100%; }
+    .sale-input { flex: 1 1 auto; padding: 10px; border: 1px solid rgba(255, 192, 203, 0.3);
+      border-radius: 6px; background-color: rgba(40, 40, 40, 0.8); color: #fff; font-size: 1rem;
     }
-
-    .centered-btn {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 35px 0;
-      width: 100%;
-      max-width: 700px;
+    .remove-sale-btn { background: linear-gradient(135deg, #ff4b5c, #b91c1c); color: #fff; border: none;
+      border-radius: 6px; padding: 7px 12px; font-size: 1rem; cursor: pointer; transition: background 0.2s;
     }
-
-    .button-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    /* Calculator Styles */
-    .calculator {
-      background: rgba(25, 25, 25, 0.8);
-      border: 1px solid rgba(255, 182, 193, 0.2);
-      border-radius: 14px;
-      padding: 22px 25px;
-      margin-bottom: 25px;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
-      width: 100%;
-      max-width: 700px;
-      box-sizing: border-box;
-      position: relative;
-    }
-
-    .calculator h2 {
-      text-align: center;
-      color: #ffd6a5;
-      margin-bottom: 15px;
-    }
-
-    .sales-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .sale-input-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-    }
-
-    .sale-input {
-      flex: 1 1 auto;
-      padding: 10px;
-      border: 1px solid rgba(255, 192, 203, 0.3);
-      border-radius: 6px;
-      background-color: rgba(40, 40, 40, 0.8);
-      color: #fff;
-      font-size: 1rem;
-    }
-
-    .remove-sale-btn {
-      background: linear-gradient(135deg, #ff4b5c, #b91c1c);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 7px 12px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .remove-sale-btn:hover {
-      background: linear-gradient(135deg, #b91c1c, #ff4b5c);
-    }
-
-    .add-sale-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      margin: 18px auto 0 auto;
-      width: 60%;
-    }
-
-    .add-sale, .reset-sale {
-      flex: 1 1 0;
-      max-width: 50%;
-      min-width: 0;
-    }
-
+    .remove-sale-btn:hover { background: linear-gradient(135deg, #b91c1c, #ff4b5c); }
+    .add-sale-row { display: flex; justify-content: center; align-items: center; gap: 12px; margin: 18px auto 0 auto; width: 60%; }
+    .add-sale, .reset-sale { flex: 1 1 0; max-width: 50%; min-width: 0; }
     .reset-sale {
-      background: linear-gradient(135deg, #ffd6a5, #ffb6b9);
-      color: #000;
+      background: linear-gradient(135deg, #ffd6a5, #ffb6b9); color: #000;
       box-shadow: 0 0 12px rgba(255, 182, 193, 0.15);
-      border-radius: 8px;
-      font-weight: bold;
-      padding: 10px 0;
-      transition: all 0.25s;
+      border-radius: 8px; font-weight: bold; padding: 10px 0; transition: all 0.25s;
     }
-
-    .reset-sale:hover {
-      opacity: 0.95;
-      background: linear-gradient(135deg, #ffb6b9, #ffd6a5);
-    }
-
-    .total {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #00ff88;
-    }
+    .reset-sale:hover { opacity: 0.95; background: linear-gradient(135deg, #ffb6b9, #ffd6a5); }
+    .total { text-align: center; margin-top: 20px; font-size: 1.3rem; font-weight: bold; color: #00ff88; }
   </style>
 </head>
 <body>
-  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="navbar-content">
       <img src="fonce-logo.jpg" alt="FONCÉ Logo">
@@ -354,7 +184,6 @@
       <option value="11am-7pm">☀️ Day Shift (11:00 AM – 07:00 PM)</option>
       <option value="7pm-3am">✨ Prime Shift (07:00 PM – 03:00 AM)</option>
     </select>
-    <!-- Logging In/Off fields replaced by hidden inputs for script compatibility -->
     <input type="hidden" name="loggingIn" />
     <input type="hidden" name="loggingInAmPm" />
     <input type="hidden" name="loggingOff" />
@@ -371,16 +200,14 @@
       <div class="time-group">
         <input type="text" placeholder="hh:mm" name="lunchStart" />
         <select name="lunchStartAmPm">
-          <option>AM</option>
-          <option>PM</option>
+          <option>AM</option><option>PM</option>
         </select>
       </div>
       <label>Lunch End (hh:mm AM/PM):</label>
       <div class="time-group">
         <input type="text" placeholder="hh:mm" name="lunchEnd" />
         <select name="lunchEndAmPm">
-          <option>AM</option>
-          <option>PM</option>
+          <option>AM</option><option>PM</option>
         </select>
       </div>
     </div>
@@ -392,12 +219,10 @@
     <button class="add-btn" onclick="addEntry()">+ Add Model</button>
   </div>
 
-  <!-- SALES CALCULATOR (moved down) -->
+  <!-- CALCULATOR -->
   <div class="calculator section" id="calculatorSection">
     <h2>Sales Calculator</h2>
-    <div class="sales-list" id="salesList">
-      <!-- Sale input containers will be generated by JS -->
-    </div>
+    <div class="sales-list" id="salesList"></div>
     <div class="add-sale-row">
       <button class="add-sale" id="addSale">+ Add Sale</button>
       <button class="reset-sale" id="resetSale" type="button">Reset</button>
@@ -405,339 +230,75 @@
     <div class="total">Total: $<span id="total">0</span></div>
   </div>
 
-  <!-- TOTAL SECTION -->
+  <!-- TOTALS -->
   <div id="bottom-section" class="section">
     <label>Total Gross:</label>
     <input type="text" id="totalGross" readonly />
     <label>Total Net:</label>
     <input type="text" id="totalNet" readonly />
-    <!-- Logging Off fields removed, handled by shift selection -->
   </div>
 
   <!-- ACTION BUTTONS -->
   <div class="button-row">
     <button class="generate-btn" onclick="generateReport()">Generate Report</button>
     <button class="copy-btn" onclick="copyToClipboard()">Copy Report</button>
-    <button class="submit-btn" onclick="sendReportToWebhook(generateReportData())"> Submit Report </button>
+    <button class="submit-btn" onclick="sendReportToWebhook()">Submit Report</button>
   </div>
 
   <div id="output"></div>
 
 <script>
-  // --- CALCULATOR ---
-  const addSaleBtn = document.getElementById('addSale');
-  const resetSaleBtn = document.getElementById('resetSale');
-  const salesList = document.getElementById('salesList');
-  const totalEl = document.getElementById('total');
+  // existing calculator + form setup unchanged (same as yours)
+  // ...
+  // replace only the webhook section with this:
 
-  function createSaleInput(value = '') {
-    const container = document.createElement('div');
-    container.className = 'sale-input-container';
-    const input = document.createElement('input');
-    input.type = 'number';
-    input.className = 'sale-input';
-    input.placeholder = 'Enter sale amount';
-    input.value = value;
-    input.addEventListener('input', calculateTotal);
-    input.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const allInputs = Array.from(salesList.querySelectorAll('.sale-input'));
-        const idx = allInputs.indexOf(input);
-        if (idx < allInputs.length - 1) {
-          allInputs[idx + 1].focus();
-        } else {
-          const newContainer = createSaleInput();
-          salesList.appendChild(newContainer);
-          setTimeout(() => {
-            newContainer.querySelector('.sale-input').focus();
-          }, 0);
-        }
-      }
-    });
-    const removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.className = 'remove-sale-btn';
-    removeBtn.textContent = '✕';
-    removeBtn.title = 'Remove';
-    removeBtn.onclick = function () {
-      container.remove();
-      calculateTotal();
-    };
-    container.appendChild(input);
-    container.appendChild(removeBtn);
-    return container;
-  }
-
-  function initializeSalesList() {
-    salesList.innerHTML = '';
-    salesList.appendChild(createSaleInput());
-  }
-
-  function calculateTotal() {
-    const inputs = salesList.querySelectorAll('.sale-input');
-    let total = 0;
-    inputs.forEach(input => total += Number(input.value) || 0);
-    totalEl.textContent = total.toFixed(2);
-  }
-
-  addSaleBtn.addEventListener('click', () => {
-    const newContainer = createSaleInput();
-    salesList.appendChild(newContainer);
-    setTimeout(() => newContainer.querySelector('.sale-input').focus(), 0);
-  });
-
-  resetSaleBtn.addEventListener('click', () => {
-    initializeSalesList();
-    calculateTotal();
-  });
-
-  initializeSalesList();
-  calculateTotal();
-
-  // --- REPORT TOOL ---
-  let entryCount = 0;
-
-  function createModelSection(index, data = {}) {
-    const section = document.createElement("div");
-    section.classList.add("section");
-    section.setAttribute("id", `modelSection${index}`);
-    section.innerHTML = `
-      <button class="delete-btn" onclick="removeEntry(${index})">Delete</button>
-      <label>Platform:</label>
-      <select name="platform${index}">
-        <option>OnlyFans</option>
-        <option>Fanvue</option>
-        <option>Fansly</option>
-      </select>
-      <label>Model Name:</label>
-      <input type="text" name="modelName${index}" placeholder="Enter model name">
-      <label>Gross ($XX.XX):</label>
-      <input type="number" step="0.01" name="gross${index}" oninput="updateTotals()">
-    `;
-    if (data.platform) section.querySelector(`[name='platform${index}']`).value = data.platform;
-    if (data.modelName) section.querySelector(`[name='modelName${index}']`).value = data.modelName;
-    if (data.gross) section.querySelector(`[name='gross${index}']`).value = data.gross;
-    return section;
-  }
-
-  function addEntry() {
-    const container = document.getElementById("form-container");
-    const section = createModelSection(entryCount);
-    container.appendChild(section);
-    entryCount++;
-  }
-
-  function removeEntry(index) {
-    const section = document.getElementById(`modelSection${index}`);
-    if (section) section.remove();
-    updateTotals();
-  }
-
-  function saveModelsToCache() {
-    const models = [];
-    for (let i = 0; i < entryCount; i++) {
-      const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
-      const modelName = document.querySelector(`[name='modelName${i}']`)?.value || "";
-      if (platform || modelName) models.push({ platform, modelName });
-    }
-    localStorage.setItem('fonce_models', JSON.stringify(models));
-  }
-
-  function loadModelsFromCache() {
-    try {
-      const data = JSON.parse(localStorage.getItem('fonce_models'));
-      return Array.isArray(data) ? data : [];
-    } catch {
-      return [];
-    }
-  }
-
-  function initializeModelEntries() {
-    const container = document.getElementById("form-container");
-    container.innerHTML = '';
-    entryCount = 0;
-    const cached = loadModelsFromCache();
-    if (cached.length) {
-      cached.forEach(m => {
-        const s = createModelSection(entryCount, m);
-        container.appendChild(s);
-        entryCount++;
-      });
-    } else addEntry();
-  }
-
-  function updateTotals() {
-    let totalGross = 0;
-    for (let i = 0; i < entryCount; i++) {
-      const val = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0);
-      if (!isNaN(val)) totalGross += val;
-    }
-    document.getElementById("totalGross").value = totalGross.toFixed(2);
-    document.getElementById("totalNet").value = (totalGross * 0.8).toFixed(2);
-  }
-
-  function getTimeString(baseName) {
-    const t = document.querySelector(`[name='${baseName}']`)?.value || "";
-    const ap = document.querySelector(`[name='${baseName}AmPm']`)?.value || "";
-    return t ? `${t} ${ap}` : "";
-  }
-
-  function calculateLunchDuration(start, end) {
-    if (!start || !end) return "";
-    const parse = t => {
-      const [time, ap] = t.split(" ");
-      let [h, m] = time.split(":").map(Number);
-      if (ap === "PM" && h !== 12) h += 12;
-      if (ap === "AM" && h === 12) h = 0;
-      return h * 60 + m;
-    };
-    const diff = (parse(end) - parse(start) + 1440) % 1440;
-    return `${Math.floor(diff / 60)}h ${diff % 60}m`;
-  }
-
-  function toggleLunch() {
-    const lunchSection = document.getElementById("lunch-section");
-    lunchSection.style.display = document.getElementById("noLunchToggle").checked ? "none" : "block";
-  }
-
-  // ✅ Generate Report (display only)
-  async function generateReport() {
-    const shiftDate = document.querySelector(`[name='shiftDate']`)?.value || "";
-    const loggingIn = getTimeString("loggingIn");
-    const loggingOff = getTimeString("loggingOff");
-    const noLunch = document.getElementById("noLunchToggle").checked;
-    const lunchStart = getTimeString("lunchStart");
-    const lunchEnd = getTimeString("lunchEnd");
-    const lunchDuration = noLunch ? "N/A" : calculateLunchDuration(lunchStart, lunchEnd);
-
-    let report = `--- FONCÉ EOD REPORT ---\n\nShift Date: ${shiftDate}\nLogging In: ${loggingIn}\n`;
-    if (noLunch) report += "Lunch: N/A\n\n";
-    else report += `Lunch Start: ${lunchStart}\nLunch End: ${lunchEnd}\nLunch Duration: ${lunchDuration}\n\n`;
-
-    const chatterName = document.querySelector(`[name='chatterName']`)?.value || "Unknown";
-
-    for (let i = 0; i < entryCount; i++) {
-      const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
-      const model = document.querySelector(`[name='modelName${i}']`)?.value || "";
-      const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0).toFixed(2);
-      report += `Platform: ${platform}\nModel: ${model}\nGross: $${gross}\n\n`;
-    }
-
-    const totalGross = document.getElementById("totalGross").value || "0.00";
-    const totalNet = document.getElementById("totalNet").value || "0.00";
-    report += `Total Gross: $${totalGross}\nTotal Net: $${totalNet}\nLogging Off: ${loggingOff}`;
-
-    document.getElementById("output").textContent = report;
-    saveModelsToCache();
-  }
-
-  // ✅ Build report data (for webhook)
-  function generateReportData() {
-    const shiftDate = document.querySelector(`[name='shiftDate']`)?.value || "";
-    const chatterName = document.querySelector(`[name='chatterName']`)?.value || "Unknown";
-    const models = [];
-
-    for (let i = 0; i < entryCount; i++) {
-      const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
-      const model = document.querySelector(`[name='modelName${i}']`)?.value || "";
-      const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0).toFixed(2);
-      models.push({ platform, model, gross });
-    }
-
-    return { date: shiftDate, chatters: [{ name: chatterName, models }] };
-  }
-
-// ✅ Collect data and send to Google Sheets webhook
 async function sendReportToWebhook() {
   try {
     const webhookUrl = "https://script.google.com/macros/s/AKfycbyQUqlKS8_XHPeOmCur7a1Qk8zNvOc6DzCAQGU5UhlqrErrsBeGD3x3gAYg1CwuvbIV/exec";
 
-    // collect form inputs
-    const chatter = document.getElementById("chatterName").value.trim();
-    const model = document.getElementById("modelName").value.trim();
-    const platform = document.getElementById("platform").value.trim();
-    const gross = document.getElementById("gross").value.trim();
-    const shift = document.querySelector('input[name="shift"]:checked')?.value || "N/A"; // ✅ add shift
+    const chatterName = document.querySelector('[name="chatterName"]')?.value.trim() || "";
+    const shiftDate = document.querySelector('[name="shiftDate"]')?.value || "";
+    const shift = document.querySelector('[name="shiftSelect"]')?.value || "N/A";
 
-    if (!chatter || !model || !platform || !gross) {
-      alert("⚠️ Please fill out all required fields before submitting.");
+    const models = [];
+    for (let i = 0; i < entryCount; i++) {
+      const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
+      const model = document.querySelector(`[name='modelName${i}']`)?.value || "";
+      const gross = document.querySelector(`[name='gross${i}']`)?.value || "";
+      if (model) models.push({ platform, model, gross });
+    }
+
+    const totalGross = document.getElementById("totalGross").value || "0";
+    const totalNet = document.getElementById("totalNet").value || "0";
+
+    if (!chatterName || !shiftDate || !models.length) {
+      alert("⚠️ Please fill out chatter name, date, and at least one model.");
       return;
     }
 
-    // construct report data object
-    const reportData = {
+    const payload = {
       timestamp: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
-      chatter,
-      model,
-      platform,
-      gross,
-      shift // ✅ include shift in payload
+      chatterName,
+      shiftDate,
+      shift,
+      totalGross,
+      totalNet,
+      models
     };
 
-    // send POST request to Apps Script Web App
     await fetch(webhookUrl, {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(reportData)
+      body: JSON.stringify(payload)
     });
 
     alert("✅ Report submitted successfully!");
-    
-    // optional: clear fields
-    document.getElementById("gross").value = "";
-  } catch (error) {
-    console.error("Error sending report:", error);
-    alert("❌ Error sending report: " + error.message);
+  } catch (err) {
+    console.error(err);
+    alert("❌ Error sending report: " + err.message);
   }
 }
-
-  function copyToClipboard() {
-    const output = document.getElementById("output").textContent;
-    navigator.clipboard?.writeText(output);
-  }
-
-  function saveToFile() {
-    const blob = new Blob([document.getElementById("output").textContent], { type: "text/plain" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "fonce_eod_report.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-
-  function updateShiftTimes() {
-    const shift = document.getElementById('shiftSelect').value;
-    const times = {
-      '3am-11am': ['03:00', 'AM', '11:00', 'AM'],
-      '11am-7pm': ['11:00', 'AM', '07:00', 'PM'],
-      '7pm-3am': ['07:00', 'PM', '03:00', 'AM']
-    }[shift];
-    document.querySelector("[name='loggingIn']").value = times[0];
-    document.querySelector("[name='loggingInAmPm']").value = times[1];
-    document.querySelector("[name='loggingOff']").value = times[2];
-    document.querySelector("[name='loggingOffAmPm']").value = times[3];
-  }
-
-  // Initialize defaults
-  updateShiftTimes();
-  toggleLunch();
-  initializeModelEntries();
-  calculateTotal();
-
-  // Expose functions globally
-  window.addEntry = addEntry;
-  window.removeEntry = removeEntry;
-  window.updateTotals = updateTotals;
-  window.toggleLunch = toggleLunch;
-  window.generateReport = generateReport;
-  window.generateReportData = generateReportData;
-  window.sendReportToWebhook = sendReportToWebhook;
-  window.copyToClipboard = copyToClipboard;
-  window.saveToFile = saveToFile;
 </script>
-
 </body>
 </html>
