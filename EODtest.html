@@ -425,6 +425,7 @@
 
 <script>
   // --- CALCULATOR ---
+  // --- CALCULATOR ---
   const addSaleBtn = document.getElementById('addSale');
   const resetSaleBtn = document.getElementById('resetSale');
   const salesList = document.getElementById('salesList');
@@ -479,14 +480,6 @@
     let total = 0;
     inputs.forEach(input => total += Number(input.value) || 0);
     totalEl.textContent = total.toFixed(2);
-
-    // also update totalGross input (keeps totals in sync if user wants)
-    const totalGrossField = document.getElementById("totalGross");
-    if (totalGrossField) {
-      const parsed = parseFloat(totalEl.textContent) || 0;
-      totalGrossField.value = parsed.toFixed(2);
-      document.getElementById("totalNet").value = (parsed * 0.8).toFixed(2);
-    }
   }
 
   addSaleBtn.addEventListener('click', () => {
@@ -530,7 +523,6 @@
   }
 
   function addEntry() {
-    // adds an extra model section (there will always be at least one by default)
     const container = document.getElementById("form-container");
     const section = createModelSection(entryCount);
     container.appendChild(section);
@@ -563,7 +555,6 @@
   }
 
   function initializeModelEntries() {
-    // ensure exactly one model visible by default (user can add more)
     const container = document.getElementById("form-container");
     container.innerHTML = '';
     entryCount = 0;
@@ -575,7 +566,6 @@
         entryCount++;
       });
     } else {
-      // create one model section by default
       const s = createModelSection(entryCount);
       container.appendChild(s);
       entryCount++;
@@ -590,9 +580,6 @@
     }
     document.getElementById("totalGross").value = totalGross.toFixed(2);
     document.getElementById("totalNet").value = (totalGross * 0.8).toFixed(2);
-    // keep calculator total in sync
-    const calcTotal = document.getElementById("total");
-    if (calcTotal) calcTotal.textContent = totalGross.toFixed(2);
   }
 
   function getTimeString(baseName) {
