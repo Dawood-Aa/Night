@@ -648,22 +648,50 @@
     return { date: shiftDate, chatters: [{ name: chatterName, models }] };
   }
 
-  // ✅ Submit report to webhook (manual only)
-  async function sendReportToWebhook(reportData) {
-    try {
-      const webhookUrl = "https://script.google.com/macros/s/AKfycbwWvY-ZLHpO1wAATn1i6qfe2R3ihaomt9MlxalSs4-PWksYjE9L1eaUl5zmHlxORjQp/exec";
-      await fetch(webhookUrl, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(reportData)
-      });
-      alert("✅ Report submitted successfully!");
-    } catch (error) {
-      console.error("Error sending report:", error);
-      alert("❌ Error sending report: " + error.message);
+// ✅ Collect data and send to Google Sheets webhook
+async function sendReportToWebhook() {
+  try {
+    const webhookUrl = "https://script.google.com/macros/s/AKfycbyQUqlKS8_XHPeOmCur7a1Qk8zNvOc6DzCAQGU5UhlqrErrsBeGD3x3gAYg1CwuvbIV/exec";
+
+    // collect form inputs
+    const chatter = document.getElementById("chatterName").value.trim();
+    const model = document.getElementById("modelName").value.trim();
+    const platform = document.getElementById("platform").value.trim();
+    const gross = document.getElementById("gross").value.trim();
+    const shift = document.querySelector('input[name="shift"]:checked')?.value || "N/A"; // ✅ add shift
+
+    if (!chatter || !model || !platform || !gross) {
+      alert("⚠️ Please fill out all required fields before submitting.");
+      return;
     }
+
+    // construct report data object
+    const reportData = {
+      timestamp: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
+      chatter,
+      model,
+      platform,
+      gross,
+      shift // ✅ include shift in payload
+    };
+
+    // send POST request to Apps Script Web App
+    await fetch(webhookUrl, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reportData)
+    });
+
+    alert("✅ Report submitted successfully!");
+    
+    // optional: clear fields
+    document.getElementById("gross").value = "";
+  } catch (error) {
+    console.error("Error sending report:", error);
+    alert("❌ Error sending report: " + error.message);
   }
+}
 
   function copyToClipboard() {
     const output = document.getElementById("output").textContent;
