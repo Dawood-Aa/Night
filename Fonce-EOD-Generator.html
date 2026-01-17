@@ -489,6 +489,7 @@
       const section = document.createElement("div");
       section.classList.add("section");
       section.setAttribute("id", `modelSection${index}`);
+      // simplified: only keep editable subs input (labelled "Subs") and gross; no readonly subs/net UI
       section.innerHTML = `
         <button class="delete-btn" onclick="removeEntry(${index})">Delete</button>
         <label>Platform:</label>
@@ -499,8 +500,8 @@
         </select>
         <label>Model Name:</label>
         <input type="text" name="modelName${index}" placeholder="Enter model name">
-        <label>New subs:</label>
-        <input type="number" min="0" name="newSubs${index}" placeholder="Enter new subs for this model">
+        <label>Subs:</label>
+        <input type="number" min="0" name="newSubs${index}" placeholder="Enter subs for this model" oninput="updateTotals()">
         <label>Gross ($XX.XX):</label>
         <input type="number" step="0.01" name="gross${index}" oninput="updateTotals()">
       `;
@@ -525,6 +526,8 @@
       const section = createModelSection(entryCount);
       container.appendChild(section);
       entryCount++;
+      // refresh displays immediately
+      updateTotals();
     }
 
     function removeEntry(index) {
@@ -534,24 +537,45 @@
     }
 
     function saveModelsToCache() {
+      // persist only platform + modelName and current shift info
       const models = [];
       for (let i = 0; i < entryCount; i++) {
         const section = document.getElementById(`modelSection${i}`);
         if (!section) continue;
         const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
         const modelName = document.querySelector(`[name='modelName${i}']`)?.value || "";
-        const newSubs = parseInt(document.querySelector(`[name='newSubs${i}']`)?.value || 0, 10) || 0;
-        // persist platform, modelName and per-model newSubs (do not persist gross)
-        if (platform || modelName || newSubs) models.push({ platform, modelName, newSubs });
+        // DO NOT persist per-model subs or gross values
+        if (platform || modelName) models.push({ platform, modelName });
       }
-      localStorage.setItem('fonce_models', JSON.stringify(models));
+      try {
+        localStorage.setItem('fonce_models', JSON.stringify(models));
+        // also save shift info separately
+        const shiftInfo = {
+          date: document.querySelector(`[name='shiftDate']`)?.value || "",
+          shiftSelect: document.querySelector(`#shiftSelect`)?.value || ""
+        };
+        localStorage.setItem('fonce_shift', JSON.stringify(shiftInfo));
+      } catch (e) {
+        console.warn('Could not save models/shift to cache', e);
+      }
     }
 
     function loadModelsFromCache() {
       const raw = localStorage.getItem('fonce_models');
       try {
         return raw ? JSON.parse(raw) : null;
-      } catch (e) { return null; }
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function loadShiftFromCache() {
+      const raw = localStorage.getItem('fonce_shift');
+      try {
+        return raw ? JSON.parse(raw) : null;
+      } catch (e) {
+        return null;
+      }
     }
 
     function initializeModelEntries() {
@@ -564,17 +588,37 @@
           container.appendChild(createModelSection(entryCount, m));
           entryCount++;
         });
-      } else { addEntry(); }
+      } else {
+        addEntry();
+      }
+
+      // restore saved shift if present
+      const savedShift = loadShiftFromCache();
+      if (savedShift) {
+        if (savedShift.date) {
+          const dateEl = document.querySelector(`[name='shiftDate']`);
+          if (dateEl) dateEl.value = savedShift.date;
+        }
+        if (savedShift.shiftSelect) {
+          const sel = document.getElementById('shiftSelect');
+          if (sel) {
+            sel.value = savedShift.shiftSelect;
+            updateShiftTimes();
+          }
+        }
+      }
+
+      // refresh totals
+      updateTotals();
     }
 
     function updateTotals() {
+      // sum gross values and update totals only — per-model subs/net are kept internal and shown only in the report
       let totalGross = 0;
       for (let i = 0; i < entryCount; i++) {
-        const input = document.querySelector(`[name='gross${i}']`);
-        if (input && input.closest(".section")) {
-          const val = parseFloat(input.value || 0);
-          if (!isNaN(val)) totalGross += val;
-        }
+        const grossEl = document.querySelector(`[name='gross${i}']`);
+        const val = grossEl && grossEl.closest(".section") ? parseFloat(grossEl.value || 0) : 0;
+        if (!isNaN(val)) totalGross += val;
       }
       document.getElementById("totalGross").value = totalGross.toFixed(2);
       document.getElementById("totalNet").value = (totalGross * 0.8).toFixed(2);
@@ -636,12 +680,11 @@
         const model = toTitleCase(document.querySelector(`[name='modelName${i}']`)?.value || "");
         const grossVal = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0) || 0;
         const gross = grossVal.toFixed(2);
-        report += `Platform: ${platform}\nModel: ${model}\nGross: $${gross}\n\n`;
-
         const newSubsForModel = parseInt(document.querySelector(`[name='newSubs${i}']`)?.value || 0, 10) || 0;
         totalNewSubs += newSubsForModel;
-
-        const netModel = grossVal * 0.8; // keep as float for ratio
+        const netModel = +(grossVal * 0.8);
+        // include subs and net lines in the model block
+        report += `Platform: ${platform}\nModel: ${model}\nSubs: ${newSubsForModel}\nGross: $${gross}\nNet: $${netModel.toFixed(2)}\n\n`;
         const modelRatioStr = formatRatioOneTo(netModel, newSubsForModel);
         perModelRatios.push({ name: model || `Model${i+1}`, ratio: modelRatioStr });
       }
