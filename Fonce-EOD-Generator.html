@@ -499,6 +499,8 @@
         </select>
         <label>Model Name:</label>
         <input type="text" name="modelName${index}" placeholder="Enter model name">
+        <label>New subs:</label>
+        <input type="number" min="0" name="newSubs${index}" placeholder="Enter new subs for this model">
         <label>Gross ($XX.XX):</label>
         <input type="number" step="0.01" name="gross${index}" oninput="updateTotals()">
       `;
@@ -509,6 +511,11 @@
       if (data.modelName) {
         const mn = section.querySelector(`[name='modelName${index}']`);
         if (mn) mn.value = data.modelName;
+      }
+      // restore cached new subs if provided
+      if (data.newSubs !== undefined) {
+        const ns = section.querySelector(`[name='newSubs${index}']`);
+        if (ns) ns.value = data.newSubs;
       }
       return section;
     }
@@ -533,14 +540,18 @@
         if (!section) continue;
         const platform = document.querySelector(`[name='platform${i}']`)?.value || "";
         const modelName = document.querySelector(`[name='modelName${i}']`)?.value || "";
-        if (platform || modelName) models.push({ platform, modelName });
+        const newSubs = parseInt(document.querySelector(`[name='newSubs${i}']`)?.value || 0, 10) || 0;
+        // persist platform, modelName and per-model newSubs (do not persist gross)
+        if (platform || modelName || newSubs) models.push({ platform, modelName, newSubs });
       }
       localStorage.setItem('fonce_models', JSON.stringify(models));
     }
 
     function loadModelsFromCache() {
       const raw = localStorage.getItem('fonce_models');
-      return raw ? JSON.parse(raw) : null;
+      try {
+        return raw ? JSON.parse(raw) : null;
+      } catch (e) { return null; }
     }
 
     function initializeModelEntries() {
@@ -550,7 +561,8 @@
       const cached = loadModelsFromCache();
       if (cached && cached.length) {
         cached.forEach(m => {
-          container.appendChild(createModelSection(entryCount++, m));
+          container.appendChild(createModelSection(entryCount, m));
+          entryCount++;
         });
       } else { addEntry(); }
     }
@@ -604,17 +616,46 @@
         const lE = getTimeString("lunchEnd");
         lunchSection = `Lunch Start: ${lS}\nLunch End: ${lE}\nLunch Duration: ${calculateLunchDuration(lS, lE)}\n\n`;
       }
+
+      // helper to format ratio as "1:XX.XX"
+      function formatRatioOneTo(value, items) {
+        if (!items || items <= 0 || !isFinite(value) || value <= 0) return "N/A";
+        const denom = value / items;
+        return `1:${denom.toFixed(2)}`;
+      }
+
       let report = `--- FONCÉ EOD REPORT ---\n\nShift Date: ${shiftDate}\nLogging In: ${loggingIn}\n${lunchSection}`;
+
+      // accumulate totals and build per-model ratios
+      const perModelRatios = [];
+      let totalNewSubs = 0;
       for (let i = 0; i < entryCount; i++) {
         const section = document.getElementById(`modelSection${i}`);
         if (!section) continue;
-        // FORMATTED TO TITLE CASE HERE
         const platform = toTitleCase(document.querySelector(`[name='platform${i}']`)?.value || "");
         const model = toTitleCase(document.querySelector(`[name='modelName${i}']`)?.value || "");
-        const gross = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0).toFixed(2);
+        const grossVal = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0) || 0;
+        const gross = grossVal.toFixed(2);
         report += `Platform: ${platform}\nModel: ${model}\nGross: $${gross}\n\n`;
+
+        const newSubsForModel = parseInt(document.querySelector(`[name='newSubs${i}']`)?.value || 0, 10) || 0;
+        totalNewSubs += newSubsForModel;
+
+        const netModel = grossVal * 0.8; // keep as float for ratio
+        const modelRatioStr = formatRatioOneTo(netModel, newSubsForModel);
+        perModelRatios.push({ name: model || `Model${i+1}`, ratio: modelRatioStr });
       }
-      report += `Total Gross: $${document.getElementById("totalGross").value}\nTotal Net: $${document.getElementById("totalNet").value}\nLogging Off: ${loggingOff}`;
+
+      const totalGross = parseFloat(document.getElementById("totalGross").value || 0) || 0;
+      const totalNet = totalGross * 0.8;
+      report += `Total Gross: $${document.getElementById("totalGross").value}\nTotal Net: $${document.getElementById("totalNet").value}\nLogging Off: ${loggingOff}\n\n`;
+
+      // total ratio (using sum of newSubs and total net sales)
+      const totalRatioStr = formatRatioOneTo(totalNet, totalNewSubs);
+      report += `Total Ratio: ${totalRatioStr}\n`;
+      // per-model ratios
+      perModelRatios.forEach(m => { report += `${m.name} ratio: ${m.ratio}\n`; });
+
       document.getElementById("output").textContent = report;
       saveModelsToCache();
     }
