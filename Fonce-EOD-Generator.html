@@ -497,6 +497,7 @@
           <option>OnlyFans</option>
           <option>Fanvue</option>
           <option>Fansly</option>
+          <option>MYM</option>
         </select>
         <label>Model Name:</label>
         <input type="text" name="modelName${index}" placeholder="Enter model name">
@@ -676,7 +677,9 @@
       for (let i = 0; i < entryCount; i++) {
         const section = document.getElementById(`modelSection${i}`);
         if (!section) continue;
-        const platform = toTitleCase(document.querySelector(`[name='platform${i}']`)?.value || "");
+        const rawPlatform = document.querySelector(`[name='platform${i}']`)?.value || "";
+        // preserve uppercase for MYM, otherwise normalize to title case
+        const platform = rawPlatform.toUpperCase() === 'MYM' ? 'MYM' : toTitleCase(rawPlatform);
         const model = toTitleCase(document.querySelector(`[name='modelName${i}']`)?.value || "");
         const grossVal = parseFloat(document.querySelector(`[name='gross${i}']`)?.value || 0) || 0;
         const gross = grossVal.toFixed(2);
@@ -745,3 +748,4 @@
   </script>
 </body>
 </html>
+
